@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">ScoreQuick</string>
+    <string name="setting">Setting</string>
+    <string name="stats">Stats</string>
+    <string name="undo">Undo</string>
+    <string name="start_Inning1">Start Inning 1</string>
+
+    <string name="score_overview"><u><b>[SCORE OVERVIEW]</b></u></string>
+    <string name="ball_overview"><u><b>[OVER/BALL OVERVIEW]</b></u></string>
+    <string name="this_over">[THIS OVER OVERVIEW}</string>
+
+    <string name="zero_run">Dot Ball(0 Runs)</string>
+    <string name="one_run">1 Run</string>
+    <string name="two_run">2 Runs</string>
+    <string name="three_run">3 Runs</string>
+    <string name="four_run">4 Runs</string>
+    <string name="six_run">6 Runs</string>
+
+    <string name="byes">Byes</string>
+    <string name="leg_byes">Leg Byes</string>
+    <string name="no_ball">NO Ball</string>
+    <string name="wides">Wide Ball</string>
+    <string name="wicket">Wicket</string>
+
+    <string name="team1_txtV">Team 1\n(Inning 1): </string>
+    <string name="team2_txtV">Team 2\n(Inning 2): </string>
+    <string name="overs_playble">Overs: </string>
+    <string name="num_players"># of Players: </string>
+
+    <string name="Team1_name">[Name Team1]</string>
+    <string name="Team2_name">[Name Team2]</string>
+    <string name="Team1_score">[score Team1]</string>
+    <string name="Team2_score">[score Team2]</string>
+    <string name="Team1_ball">[ball/over Team1]</string>
+    <string name="Team2_ball">[ball/over Team2]</string>
+    <string name="Team1_btn">Details</string>
+    <string name="Team2_btn">Details</string>
+
+
+</resources>

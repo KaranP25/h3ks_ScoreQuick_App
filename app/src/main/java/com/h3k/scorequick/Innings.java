@@ -1,5 +1,7 @@
 package com.h3k.scorequick;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -7,13 +9,14 @@ import java.util.ArrayList;
  */
 public class Innings {
     private int mRunScored;
-    private int mWicketTaken;
     private Runs mRunType;
     private String mInningOf, mWicketFalenType;
     private int mTotalOvers, mCurrentOver = 0, mNumOfBallsPlayed = 0, mRuns, mExtraRuns, mWicketNeeded, mCurrentNumOfWickets,
             mExtraRunOfBall;
     private ArrayList<String>[] mOvers;
-    private boolean isOverDone;
+    private boolean isOverDone, inningDone;
+
+    //private int mRunsMade;
 
 
     public Innings(String inningOf, int numOfOvers, int numOfPlayers){
@@ -23,7 +26,12 @@ public class Innings {
 
         mRunType = new Runs();
         mOvers = new ArrayList[numOfOvers];
+        inningDone = false;
         for(int i = 0; i < mOvers.length; i++) mOvers[i] = new ArrayList<String>();
+    }
+
+    public void setRunsNeededToWin(int runs){
+        //this.mRunsMade = runs;
     }
 
     public String getInningOf(){
@@ -66,16 +74,30 @@ public class Innings {
 
     }
 
-    public String getOverOverview(int over){
+    public String getOverOverview(int over, boolean totalVersion){
         StringBuilder thisOver = new StringBuilder();
-        thisOver.append("[ ");
-        String spliter = "";
 
-        for(String i : mOvers[over]){
-            thisOver.append(spliter).append(i);
-            spliter = ", ";
+        if (totalVersion) {
+            thisOver.append("");
+            String spliter = "";
+
+            for (String i : mOvers[over]) {
+                thisOver.append(spliter).append(i);
+                spliter = " + ";
+            }
+            thisOver.append("");
+        }else{
+            thisOver.append("[ ");
+            String spliter = "";
+
+            //try {
+                for (String i : mOvers[over]) {
+                    thisOver.append(spliter).append(i);
+                    spliter = ", ";
+                }
+                thisOver.append(" ]");
+            //}catch(Exception e){ }
         }
-        thisOver.append(" ]");
 
         return thisOver.toString();
     }
@@ -104,6 +126,7 @@ public class Innings {
     public void setExtraRuns(int extra){
         mRunType.setExtraRuns(extra);
     }
+
     public int getTotalRunScored(){
         return mRunType.getTotalRuns();
     }
@@ -171,6 +194,23 @@ public class Innings {
         mOvers[overNum].remove(mOvers[overNum].size()-1);
     }
 
+    public boolean isInningDone(){
+        if(inningDone){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public void checkInningDone(){
+        if(mCurrentOver == mTotalOvers){
+            inningDone = true;
+        }else if(mCurrentNumOfWickets == mWicketNeeded){
+            inningDone = true;
+        }else{
+            inningDone = false;
+        }
 
 
+    }
 }

@@ -27,7 +27,7 @@
     <string name="overs_playble">Overs: </string>
     <string name="num_players"># of Players: </string>
 
-    <string name="Team1_name">[Name Team1]</string>
+    <string name="Team1_name"><u>[Name Team1]</u></string>
     <string name="Team2_name">[Name Team2]</string>
     <string name="Team1_score">[score Team1]</string>
     <string name="Team2_score">[score Team2]</string>

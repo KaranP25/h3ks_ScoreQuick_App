@@ -7,11 +7,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/Team2_name"
+        android:id="@+id/Team2_name"
+        android:textSize="27sp"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/score_overview"
         android:id="@+id/score_overview"
         android:textSize="44sp"
-        android:layout_marginTop="15dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Team2_name"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +30,8 @@
         android:text="@string/ball_overview"
         android:textSize="44sp"
         android:id="@+id/ball_overview"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Team2_name"
         android:layout_alignEnd="@+id/gridLayout"/>
 
     <TextView
@@ -46,9 +58,8 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/button"
-
+            android:text="@string/undo"
+            android:id="@+id/undo"
             android:layout_weight="1"
             android:layout_gravity="fill_horizontal"/>
 

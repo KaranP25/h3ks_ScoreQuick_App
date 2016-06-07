@@ -10,7 +10,7 @@
 
         <activity
             android:name=".SettingActivity"
-            android:label="Settings"
+            android:label="@string/app_name"
             android:theme="@style/SplashTheme"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
@@ -24,6 +24,17 @@
 
         <activity
             android:name=".InningOneActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".InningTwoActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">>
             <intent-filter>

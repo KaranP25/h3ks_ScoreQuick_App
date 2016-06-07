@@ -1,89 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+                android:orientation="vertical"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
 
                 tools:context=".StatsActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/Team1_name"
-        android:id="@+id/Team1_name"
-        android:layout_marginTop="75dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/Team1_score"
-        android:id="@+id/Team1_score"
-        android:layout_alignTop="@+id/Team1_ball"
-        android:layout_toStartOf="@+id/Team1_ball"
-        android:layout_marginEnd="35dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/Team1_ball"
-        android:id="@+id/Team1_ball"
-        android:layout_marginEnd="59dp"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/Team1_name"
-        android:layout_alignParentEnd="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Team1_btn"
-        android:id="@+id/Team1_btn"
-        android:layout_marginTop="32dp"
-        android:layout_below="@+id/Team1_score"
-        android:layout_centerHorizontal="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/Team2_name"
-        android:id="@+id/Team2_name"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="70dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/Team2_score"
-        android:id="@+id/Team2_score"
-        android:layout_marginTop="44dp"
-        android:layout_below="@+id/Team2_name"
-        android:layout_alignStart="@+id/Team1_score"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Team2_btn"
-        android:id="@+id/Team2_btn"
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/Team2_score"
-        android:layout_alignStart="@+id/Team1_btn"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/Team2_ball"
-        android:id="@+id/Team2_ball"
-        android:layout_alignTop="@+id/Team2_score"
-        android:layout_toEndOf="@+id/Team1_score"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/Team1_name"
+            android:id="@+id/Team1_name"
+            android:textSize="30dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="fill_horizontal|center"/>
 
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Team1_score"
+                android:id="@+id/Team1_score"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Team1_ball"
+                android:id="@+id/Team1_ball"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Team1_btn"
+            android:id="@+id/Team1_btn"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="25dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Team2_name"
+                android:id="@+id/Team2_name"
+                android:textSize="30dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="fill_horizontal|center"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Team2_score"
+                android:id="@+id/Team2_score"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Team2_ball"
+                android:id="@+id/Team2_ball"
+                android:textSize="20dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/Team2_btn"
+            android:id="@+id/Team2_btn"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:layout_marginTop="25dp"/>
+    </LinearLayout>
 </RelativeLayout>

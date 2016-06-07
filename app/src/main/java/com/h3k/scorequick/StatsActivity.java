@@ -3,8 +3,10 @@ package com.h3k.scorequick;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,10 +18,13 @@ import android.widget.TextView;
  * Created by Karan on 6/5/2016.
  */
 public class StatsActivity extends AppCompatActivity implements View.OnClickListener{
+    private static final String NAME_KEY = "name";
+
     StatsActivity () {
 
     }
 
+    private SharedPreferences mPrefs;
     private TextView nameT1, nameT2, scoreT1, scoreT2, ballOverT1, ballOverT2, dnp;
     private Button detailsT1, detailsT2;
     private Button btnTeamOne, btnTeamTwo;
@@ -42,9 +47,9 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         ballOverT1 = (TextView) this.findViewById(R.id.Team1_ball);
         ballOverT2 = (TextView) this.findViewById(R.id.Team2_ball);
         //dnp = (TextView) this.findViewById(R.id.DNP);
-
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         int team1Score, team2Score, team1Wickets, team2Wickets, team1Over, team2Over,
-        team1Ball, team2Ball;
+                team1Ball, team2Ball;
 
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
@@ -72,13 +77,15 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
         }
 
+        String name = mPrefs.getString(NAME_KEY, "");
+
     }
 
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.Team1_btn){
-           ScrollView s = new ScrollView(this);
+            ScrollView s = new ScrollView(this);
             LinearLayout vh = new LinearLayout(this);
             vh.setOrientation(LinearLayout.VERTICAL);
             s.addView(vh);

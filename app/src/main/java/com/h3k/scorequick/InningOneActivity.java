@@ -1,10 +1,14 @@
 package com.h3k.scorequick;
 
 import android.app.AlertDialog;
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +20,7 @@ import java.util.ArrayList;
 
 
 public class InningOneActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String NAME_KEY = "name";
     private Button mZeroRunBtn, mOneRunBtn, mTwoRunBtn, mThreeRunBtn, mFourRunBtn, mSixRunBtn,
             mByesBtn, mLegByesBtn, mNoBallBtn, mWidesBtn, mWicketBtn, mStatsBtn, mUndoBtn;
     private TextView mTotal, mOverOverview, mOverAndBallLeft, mTeamName;
@@ -34,6 +39,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
     private int MAX_OVERS, MAX_PLAYER;
     private String TEAM_1NAME, TEAM_2NAME;
+    SharedPreferences sharedpreferences;
 
 
 
@@ -83,6 +89,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         mUndoBtn = (Button) this.findViewById(R.id.undo);
         mUndoBtn.setOnClickListener(this);
         mUndoBtn.setEnabled(false);
+        mStatsBtn.setEnabled(false);
 
         mTotal = (TextView) this.findViewById(R.id.score_overview);
         mOverOverview = (TextView) this.findViewById(R.id.this_over);
@@ -93,6 +100,12 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         mTotal.setText(String.valueOf(MAX_OVERS));
         mOverOverview.setText("");
         mOverAndBallLeft.setText("");
+
+        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        SharedPreferences.Editor sfEditor = sharedpreferences.edit();
+        sfEditor.putString(NAME_KEY, "Vinit");
+        sfEditor.apply();
+        sharedpreferences.getString("name", "");
 
         setTotal();
         //setBoardVisible(mInnings.hasInningStarted());
@@ -331,6 +344,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
                 Intent i = new Intent(this, StatsActivity.class);
 
+
                 Bundle bundle = new Bundle();
                 bundle.putString("getTeam1Name", TEAM_1NAME);
                 bundle.putString("getTeam2Name", TEAM_2NAME);
@@ -356,6 +370,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setTotal() {
+        mStatsBtn.setEnabled(true);
         mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
         mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver(), false));
         if(legalBalls){

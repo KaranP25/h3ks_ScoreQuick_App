@@ -86,6 +86,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         mUndoBtn = (Button) this.findViewById(R.id.undo);
         mUndoBtn.setOnClickListener(this);
         mUndoBtn.setEnabled(false);
+        mStatsBtn.setEnabled(false);
 
         mTotal = (TextView) this.findViewById(R.id.score_overview);
         mOverOverview = (TextView) this.findViewById(R.id.this_over);
@@ -333,13 +334,13 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 Bundle bundle = new Bundle();
                 bundle.putString("getTeam1Name", TEAM_1NAME);
                 bundle.putString("getTeam2Name", TEAM_2NAME);
-                bundle.putStringArray("overOverviewT1", mOvers);
-                bundle.putInt("getScoreT1", scoreAtInstant);
-                bundle.putInt("getOverT1", overAtInstant);
-                bundle.putInt("getBallsT1", ballsPlayedAtInstant);
-                bundle.putInt("getWicketT1", wicketFallenAtInstant);
-                bundle.putBoolean("getTeam1State", true);
-                bundle.putBoolean("getTeam2State", false);
+                bundle.putStringArray("overOverviewT2", mOvers);
+                bundle.putInt("getScoreT2", scoreAtInstant);
+                bundle.putInt("getOverT2", overAtInstant);
+                bundle.putInt("getBallsT2", ballsPlayedAtInstant);
+                bundle.putInt("getWicketT2", wicketFallenAtInstant);
+                bundle.putBoolean("getTeam1State", false);
+                bundle.putBoolean("getTeam2State", true);
                 //i.putExtras(bundle);
 
                 startActivity(i);
@@ -355,6 +356,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void setTotal() {
+        mStatsBtn.setEnabled(true);
         mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
         mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver(), false));
         if(legalBalls){

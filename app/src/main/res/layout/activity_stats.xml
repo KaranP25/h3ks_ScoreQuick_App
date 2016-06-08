@@ -1,27 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:orientation="vertical"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
-                tools:context=".StatsActivity">
+    tools:context=".StatsActivity">
 
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="20dp"
+        android:layout_alignParentEnd="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/stats"
+            android:id="@+id/stats"
+            android:textSize="25sp"
+            android:layout_marginStart="10dp"
+            android:gravity="start"/>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@android:color/darker_gray"/>
 
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="0dp"
@@ -30,6 +49,7 @@
                 android:text="@string/max_players"
                 android:id="@+id/max_players"
                 android:layout_weight="1"
+                android:layout_marginStart="10dp"
                 android:gravity="center|start"/>
 
             <TextView
@@ -39,6 +59,7 @@
                 android:text="@string/max_over"
                 android:id="@+id/max_over"
                 android:layout_weight="1"
+                android:layout_marginEnd="10dp"
                 android:gravity="center|end"/>
         </LinearLayout>
 

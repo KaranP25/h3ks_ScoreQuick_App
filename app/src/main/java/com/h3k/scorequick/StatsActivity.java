@@ -49,6 +49,11 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
+        // Show icon on top of actionbar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+
         btnTeamOne = (Button) findViewById(R.id.Team1_btn);
         btnTeamOne.setOnClickListener(this);
         btnTeamTwo = (Button) findViewById(R.id.Team2_btn);

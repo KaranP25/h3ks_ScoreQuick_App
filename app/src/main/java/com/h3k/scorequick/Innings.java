@@ -198,7 +198,7 @@ public class Innings {
     }
 
     public int getRunsAfterOver(int overNum){
-        if(!isOverComplete()){
+        if(!isOverComplete() && !isInningDone()){
             runsAfterOver[mCurrentOver] = getTotalRunScored();
         }
         return runsAfterOver[overNum];
@@ -241,7 +241,7 @@ public class Innings {
             inningDone = true;
         }else if(mCurrentNumOfWickets == mWicketNeeded){
             inningDone = true;
-        }else if((mRunType.getTotalRuns() == mRunsNeededToWin) && teamChasing){
+        }else if((mRunsNeededToWin <  mRunType.getTotalRuns()) && teamChasing){
             inningDone = true;
         }else{
             inningDone = false;

@@ -60,8 +60,13 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inning1);
+        // Show icon on top of actionbar
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         //Bundle bundle = this.getIntent().getExtras();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -385,50 +390,54 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         if(legalBalls){
             mInnings.legalBallsPlayed();
         }
-        mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
-        if(mInnings.isOverComplete()){
-            ScrollView s = new ScrollView(InningOneActivity.this);
-            LinearLayout vh = new LinearLayout(InningOneActivity.this);
-            vh.setOrientation(LinearLayout.VERTICAL);
-            s.addView(vh);
-            vh.addView(new TextView(this));
-            for (int i = 0; i < mInnings.getHowManyBallsBowled(mInnings.getCurrentOver()); i++){
-                TextView t = new TextView(this);
-                t.setText("    Delivery " + (i + 1) + ": " + mInnings.getCertainBallOfOver(mInnings.getCurrentOver(), i));
-                t.setTextSize(20);
-                vh.addView(t);
-            }
-            vh.addView(new TextView(this));
-            TextView x = new TextView(this);
-            x.setText("                                                         MOVE TO NEXT OVER?");
-            vh.addView(x);
-            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Yes", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mInnings.setOverDone(true);
-                    mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
-                    mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver() - 1, false));
-                    mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
-                    legalBalls = false;
-                    mUndoBtn.setEnabled(false);
-                    mInnings.checkInningDone();
-                    if(mInnings.isInningDone()){
-                        inningCompletionPrompt();
+        mInnings.checkInningDone();
+        if(mInnings.isInningDone()) {
+            inningCompletionPrompt();
+        }else{
+            mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
+            if(mInnings.isOverComplete()) {
+                ScrollView s = new ScrollView(InningOneActivity.this);
+                LinearLayout vh = new LinearLayout(InningOneActivity.this);
+                vh.setOrientation(LinearLayout.VERTICAL);
+                s.addView(vh);
+                vh.addView(new TextView(this));
+                for (int i = 0; i < mInnings.getHowManyBallsBowled(mInnings.getCurrentOver()); i++) {
+                    TextView t = new TextView(this);
+                    t.setText("    Delivery " + (i + 1) + ": " + mInnings.getCertainBallOfOver(mInnings.getCurrentOver(), i));
+                    t.setTextSize(20);
+                    vh.addView(t);
+                }
+                vh.addView(new TextView(this));
+                TextView x = new TextView(this);
+                x.setText("                                                         MOVE TO NEXT OVER?");
+                vh.addView(x);
+                new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInnings.setOverDone(true);
+                        mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
+                        mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver() - 1, false));
+                        mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
+                        legalBalls = false;
+                        mUndoBtn.setEnabled(false);
+                        mInnings.checkInningDone();
+                        if (mInnings.isInningDone()) {
+                            inningCompletionPrompt();
+                        }
+
                     }
-
-                }
-            }).setNegativeButton("No", new DialogInterface.OnClickListener(){
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
-                    mInnings.setOverDone(false);
-                    legalBalls = false;
-                    setTotal();
-                    mUndoBtn.setEnabled(false);
-                }
-            }).setCancelable(false).show();
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
+                        mInnings.setOverDone(false);
+                        legalBalls = false;
+                        setTotal();
+                        mUndoBtn.setEnabled(false);
+                    }
+                }).setCancelable(false).show();
+            }
         }
-
 
     }
 

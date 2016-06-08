@@ -14,24 +14,29 @@ public class Innings {
     private int mTotalOvers, mCurrentOver = 0, mNumOfBallsPlayed = 0, mRuns, mExtraRuns, mWicketNeeded, mCurrentNumOfWickets,
             mExtraRunOfBall;
     private ArrayList<String>[] mOvers;
-    private boolean isOverDone, inningDone;
+    private boolean isOverDone, inningDone, teamChasing;
+    private int[] runsOfThatOver;
 
-    //private int mRunsMade;
+    private int mRunsNeededToWin;
 
 
-    public Innings(String inningOf, int numOfOvers, int numOfPlayers){
+    public Innings(String inningOf, int numOfOvers, int numOfPlayers, boolean teamChasing){
         this.mInningOf = inningOf;
         this.mTotalOvers = numOfOvers;
         this.mWicketNeeded = numOfPlayers - 1;
+        this.teamChasing = teamChasing;
 
         mRunType = new Runs();
         mOvers = new ArrayList[numOfOvers];
+        runsOfThatOver = new int[numOfOvers];
         inningDone = false;
         for(int i = 0; i < mOvers.length; i++) mOvers[i] = new ArrayList<String>();
     }
 
     public void setRunsNeededToWin(int runs){
-        //this.mRunsMade = runs;
+        if(teamChasing) {
+            this.mRunsNeededToWin = runs;
+        }
     }
 
     public String getInningOf(){
@@ -184,14 +189,25 @@ public class Innings {
 
     public void undo(int overNum, boolean ballLegal, boolean wasLastBallWicket){
         if(ballLegal){
-            mNumOfBallsPlayed--;
+            if (mNumOfBallsPlayed != 0) {
+                mNumOfBallsPlayed--;
+            }
+            if(mOvers[overNum].size() == 0){
+                overNum--;
+            }
         }
         if(wasLastBallWicket){
-            mCurrentNumOfWickets--;
+            if(mCurrentNumOfWickets != 0) {
+                mCurrentNumOfWickets--;
+            }
         }else{
-            mRunType.removeLastRun();
+            if(mRunType.getTotalRuns() != 0) {
+                mRunType.removeLastRun();
+            }
         }
-        mOvers[overNum].remove(mOvers[overNum].size()-1);
+        if(!mOvers[overNum].isEmpty()) {
+            mOvers[overNum].remove(mOvers[overNum].size() - 1);
+        }
     }
 
     public boolean isInningDone(){
@@ -207,10 +223,11 @@ public class Innings {
             inningDone = true;
         }else if(mCurrentNumOfWickets == mWicketNeeded){
             inningDone = true;
+        }else if((mRunType.getTotalRuns() == mRunsNeededToWin) && teamChasing){
+            inningDone = true;
         }else{
             inningDone = false;
         }
-
 
     }
 }

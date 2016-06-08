@@ -10,7 +10,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/Team1_name"
         android:id="@+id/Team1_name"
-        android:textSize="27sp"
+        android:textSize="30sp"
         android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"/>
 

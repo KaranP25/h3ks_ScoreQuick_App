@@ -2,10 +2,13 @@ package com.h3k.scorequick;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,6 +28,11 @@ public class SettingActivity extends AppCompatActivity {
     SettingActivity() {
 
     }
+    private static final String GET_TEAM1_NAME = "getTeam1Name";
+    private static final String GET_TEAM2_NAME = "getTeam2Name";
+    private static final String GET_MAX_OVER = "getMaxOvers";
+    private static final String GET_MAX_PLAYER = "getMaxPlayers";
+
     private EditText overs, players, nameTeam1, nameTeam2;
     private Toast mToast;
 
@@ -34,11 +42,15 @@ public class SettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        final int MAX_INPUT_LENGTH = 12;
 
         overs = (EditText) findViewById(R.id.overs);
         players = (EditText) findViewById(R.id.num_total_player);
         nameTeam1 = (EditText) findViewById(R.id.team1_txtF);
+        nameTeam1.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_INPUT_LENGTH)}); // limits input lenth
         nameTeam2 = (EditText) findViewById(R.id.team2_txtF);
+        nameTeam2.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_INPUT_LENGTH)}); // limits input lenth
+
 
         nameTeam1.setInputType(InputType.TYPE_CLASS_TEXT); // enables the Text keyboard
         nameTeam2.setInputType(InputType.TYPE_CLASS_TEXT); // enables the Text keyboard
@@ -116,7 +128,6 @@ public class SettingActivity extends AppCompatActivity {
 
 
 
-
         players.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -125,10 +136,20 @@ public class SettingActivity extends AppCompatActivity {
                             Integer.valueOf(players.getText().toString()) != 0 &&
                             Integer.valueOf(players.getText().toString()) <= 11){
                         Intent i = new Intent(SettingActivity.this, InningOneActivity.class);
-                        i.putExtra("getNameTeam1", nameTeam1.getText().toString());
-                        i.putExtra("getNameTeam2", nameTeam2.getText().toString());
-                        i.putExtra("getOvers", Integer.valueOf(overs.getText().toString()));
-                        i.putExtra("getWicket", Integer.valueOf(players.getText().toString()));
+
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                        SharedPreferences.Editor sfEditor = sharedPreferences.edit();
+
+                        sfEditor.putString(GET_TEAM1_NAME, nameTeam1.getText().toString().toUpperCase());
+                        sfEditor.putString(GET_TEAM2_NAME, nameTeam2.getText().toString().toUpperCase());
+                        sfEditor.putInt(GET_MAX_OVER, Integer.valueOf(overs.getText().toString()));
+                        sfEditor.putInt(GET_MAX_PLAYER, Integer.valueOf(players.getText().toString()));
+                        sfEditor.apply();
+
+                        //i.putExtra("getNameTeam1", nameTeam1.getText().toString());
+                        //i.putExtra("getNameTeam2", nameTeam2.getText().toString());
+                        //i.putExtra("getMaxOvers", Integer.valueOf(overs.getText().toString()));
+                        //i.putExtra("getMaxPlayers", Integer.valueOf(players.getText().toString()));
                         startActivity(i);
 
                         onBackPressed();

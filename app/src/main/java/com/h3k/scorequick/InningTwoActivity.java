@@ -3,8 +3,11 @@ package com.h3k.scorequick;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +20,16 @@ import java.util.ArrayList;
 
 
 public class InningTwoActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String GET_TEAM2_NAME = "getTeam2Name";
+    private static final String GET_MAX_OVER = "getMaxOvers";
+    private static final String GET_MAX_PLAYER = "getMaxPlayers";
+    private static final String GET_SCORE_T2 = "getScoreT2";
+    private static final String GET_OVER_T2 = "getOverT2";
+    private static final String GET_BALLS_T2 = "getBallsT2";
+    private static final String GET_WICKET_T2 = "getWicketT2";
+    private static final String GET_TEAM1STATE = "getTeam1State";
+    private static final String GET_TEAM2STATE = "getTeam2State";
+
     private Button mZeroRunBtn, mOneRunBtn, mTwoRunBtn, mThreeRunBtn, mFourRunBtn, mSixRunBtn,
             mByesBtn, mLegByesBtn, mNoBallBtn, mWidesBtn, mWicketBtn, mStatsBtn, mUndoBtn;
     private TextView mTotal, mOverOverview, mOverAndBallLeft, mTeamName;
@@ -32,11 +45,10 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     private Innings mInnings;
     private boolean legalBalls, lastBallWicket;
 
+    private int MAX_OVERS, MAX_PLAYER, runNeededToWin;
+    private String team2Name;
 
-    private int MAX_OVERS, MAX_PLAYER;
-    private String TEAM_1NAME, TEAM_2NAME;
-
-
+    private SharedPreferences mSharedPreferences;
 
     public InningTwoActivity() {
         // Required empty public constructor
@@ -48,14 +60,17 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_inning2);
 
         Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-        MAX_OVERS = bundle.getInt("getMaxOver");
-        MAX_PLAYER = bundle.getInt("getMaxPlayers");
-        //TEAM_1NAME = bundle.getString("getNameTeam1");
-        TEAM_2NAME = bundle.getString("getTeam2Name");
+        runNeededToWin = i.getIntExtra("getRunNeededToWin", 0);
 
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
-        mInnings = new Innings(TEAM_2NAME, MAX_OVERS, MAX_PLAYER);
+        MAX_OVERS = mSharedPreferences.getInt(GET_MAX_OVER, 5);
+        MAX_PLAYER = mSharedPreferences.getInt(GET_MAX_PLAYER, 11);
+        team2Name = mSharedPreferences.getString(GET_TEAM2_NAME, "Inning 2");
+
+        mInnings = new Innings(team2Name, MAX_OVERS, MAX_PLAYER, true);
+        // true because team 2 is chasing team 1 runs
+        mInnings.setRunsNeededToWin(runNeededToWin);
 
         //Toast.makeText(this, MAX_OVERS, Toast.LENGTH_SHORT).show();
 
@@ -92,7 +107,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         mOverOverview = (TextView) this.findViewById(R.id.this_over);
         mOverAndBallLeft = (TextView) this.findViewById(R.id.ball_overview);
         mTeamName = (TextView) this.findViewById(R.id.Team2_name);
-        mTeamName.setText(TEAM_2NAME);
+        mTeamName.setText("Inning 1 of " + team2Name);
+        mTeamName.setPaintFlags(mTeamName.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
         setTotal();
         //setBoardVisible(mInnings.hasInningStarted());
@@ -320,6 +336,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         }).show();
 
             } else if (v.getId() == R.id.stats) {
+
                 String[] mOvers = new String[MAX_OVERS];
                 for(int i = 0; i < MAX_OVERS; i++){
                     mOvers[i] = mInnings.getOverOverview(i, true);
@@ -331,19 +348,42 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
 
                 Intent i = new Intent(this, StatsActivity.class);
 
+                SharedPreferences.Editor sfEditor = mSharedPreferences.edit();
+                sfEditor.putInt(GET_SCORE_T2, scoreAtInstant);
+                sfEditor.putInt(GET_OVER_T2, overAtInstant);
+                sfEditor.putInt(GET_BALLS_T2, ballsPlayedAtInstant);
+                sfEditor.putInt(GET_WICKET_T2, wicketFallenAtInstant);
+                sfEditor.putBoolean(GET_TEAM2STATE, true);
+                sfEditor.putBoolean(GET_TEAM1STATE, false);
+
+                sfEditor.putInt("overOverview_sizeT2", mOvers.length);
+                for(int x = 0; x < mOvers.length; x++) {
+                    sfEditor.putString("overviewT2_" + x, mOvers[x]);
+                }
+                sfEditor.apply();
+
+                sfEditor.apply();
+
                 Bundle bundle = new Bundle();
-                bundle.putString("getTeam1Name", TEAM_1NAME);
-                bundle.putString("getTeam2Name", TEAM_2NAME);
+                //bundle.put("getTeam1Name", TEAM_1NAME);
+                //bundle.putString("getTeam2Name", TEAM_2NAME);
                 bundle.putStringArray("overOverviewT2", mOvers);
-                bundle.putInt("getScoreT2", scoreAtInstant);
-                bundle.putInt("getOverT2", overAtInstant);
-                bundle.putInt("getBallsT2", ballsPlayedAtInstant);
-                bundle.putInt("getWicketT2", wicketFallenAtInstant);
-                bundle.putBoolean("getTeam1State", false);
-                bundle.putBoolean("getTeam2State", true);
-                //i.putExtras(bundle);
+                /*bundle.putInt("getScoreT1", scoreAtInstant);
+                bundle.putInt("getOverT1", overAtInstant);
+                bundle.putInt("getBallsT1", ballsPlayedAtInstant);
+                bundle.putInt("getWicketT1", wicketFallenAtInstant);
+                bundle.putBoolean("getTeam1State", true);
+                bundle.putBoolean("getTeam2State", false);*/
+                i.putExtras(bundle);
 
                 startActivity(i);
+            } else if (v.getId() == R.id.undo) {
+                mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
+                lastBallWicket = false;
+                legalBalls = false;
+                setTotal();
+                mUndoBtn.setEnabled(false);
+
             } else if (v.getId() == R.id.undo) {
                 mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
                 lastBallWicket = false;

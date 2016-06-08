@@ -18,7 +18,22 @@ import android.widget.TextView;
  * Created by Karan on 6/5/2016.
  */
 public class StatsActivity extends AppCompatActivity implements View.OnClickListener{
-    private static final String NAME_KEY = "name";
+    private static final String GET_TEAM1_NAME = "getTeam1Name";
+    private static final String GET_TEAM2_NAME = "getTeam2Name";
+    private static final String GET_MAX_OVER = "getMaxOvers";
+    private static final String GET_MAX_PLAYER = "getMaxPlayers";
+
+    private static final String GET_SCORE_T1 = "getScoreT1";
+    private static final String GET_OVER_T1 = "getOverT1";
+    private static final String GET_BALLS_T1 = "getBallsT1";
+    private static final String GET_WICKET_T1 = "getWicketT1";
+    private static final String GET_SCORE_T2 = "getScoreT2";
+    private static final String GET_OVER_T2 = "getOverT2";
+    private static final String GET_BALLS_T2 = "getBallsT2";
+    private static final String GET_WICKET_T2 = "getWicketT2";
+
+    private static final String GET_TEAM1STATE = "getTeam1State";
+    private static final String GET_TEAM2STATE = "getTeam2State";
 
     StatsActivity () {
 
@@ -36,6 +51,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
+
         btnTeamOne = (Button) findViewById(R.id.Team1_btn);
         btnTeamOne.setOnClickListener(this);
         btnTeamTwo = (Button) findViewById(R.id.Team2_btn);
@@ -46,39 +62,59 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         scoreT2 = (TextView) this.findViewById(R.id.Team2_score);
         ballOverT1 = (TextView) this.findViewById(R.id.Team1_ball);
         ballOverT2 = (TextView) this.findViewById(R.id.Team2_ball);
-        //dnp = (TextView) this.findViewById(R.id.DNP);
+
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+
         int team1Score, team2Score, team1Wickets, team2Wickets, team1Over, team2Over,
                 team1Ball, team2Ball;
+        boolean team1State, team2State;
 
         Intent i = getIntent();
         Bundle bundle = i.getExtras();
-        String team1Name = bundle.getString("getTeam1Name");
-        String team2Name = bundle.getString("getTeam2Name");
-        boolean team1State = bundle.getBoolean("getTeam1State");
-        boolean team2State = bundle.getBoolean("getTeam2State");
         mOversInning1 = bundle.getStringArray("overOverviewT1");
-        nameT1.setText(team1Name);
-        nameT1.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        nameT2.setText(team2Name);
-        nameT2.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        if(team1State && !team2State) {
-            team1Score = bundle.getInt("getScoreT1");
-            team1Ball = bundle.getInt("getBallsT1");
-            team1Wickets = bundle.getInt("getWicketT1");
-            team1Over = bundle.getInt("getOverT1");
 
-            scoreT1.setText(String.valueOf(team1Score) + "/" + String.valueOf(team1Wickets));
-            ballOverT1.setText(String.valueOf(team1Over) + "." + String.valueOf(team1Ball));
-            scoreT2.setVisibility(View.INVISIBLE);
-            ballOverT2.setVisibility(View.INVISIBLE);
-            //dnp.setText("DNP YET");
+        String team1Name = mPrefs.getString(GET_TEAM1_NAME, "Inning 1");
+        String team2Name = mPrefs.getString(GET_TEAM2_NAME, "Inning 2");
+        team1State = mPrefs.getBoolean(GET_TEAM1STATE, false);
+        team2State = mPrefs.getBoolean(GET_TEAM2STATE, false);
 
+        team1Score = mPrefs.getInt(GET_SCORE_T1, 0);
+        team1Ball = mPrefs.getInt(GET_BALLS_T1, 0);
+        team1Wickets = mPrefs.getInt(GET_WICKET_T1, 0);
+        team1Over = mPrefs.getInt(GET_OVER_T1, 0);
+        team2Score = mPrefs.getInt(GET_SCORE_T2, 0);
+        team2Ball = mPrefs.getInt(GET_BALLS_T2, 0);
+        team2Wickets = mPrefs.getInt(GET_WICKET_T2, 0);
+        team2Over = mPrefs.getInt(GET_OVER_T2, 0);
 
+        mOversInning1 = new String[mPrefs.getInt("overOverview_sizeT1", 0)];
+        for(int x = 0; x < mOversInning1.length; x++) {
+            mOversInning1[x] = mPrefs.getString("overviewT1_" + x, null);
+        }
+        mOversInning2 = new String[mPrefs.getInt("overOverview_sizeT2", 0)];
+        for(int x = 0; x < mOversInning2.length; x++) {
+            mOversInning2[x] = mPrefs.getString("overviewT2_" + x, null);
         }
 
-        String name = mPrefs.getString(NAME_KEY, "");
+        nameT1.setText(team1Name + " (Inning 1)");
+        nameT1.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        nameT2.setText(team2Name + " (Inning 2)");
+        nameT2.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        if(team1State && !team2State) {
+            scoreT1.setText(String.valueOf(team1Score) + "/" + String.valueOf(team1Wickets));
+            ballOverT1.setText(String.valueOf(team1Over) + "." + String.valueOf(team1Ball));
 
+            scoreT2.setText("DNP");
+            ballOverT2.setText("DNP");
+            btnTeamTwo.setEnabled(false);
+        }else if(!team1State && team2State) {
+            scoreT1.setText(String.valueOf(team1Score) + "/" + String.valueOf(team1Wickets));
+            ballOverT1.setText(String.valueOf(team1Over) + "." + String.valueOf(team1Ball));
+
+            scoreT2.setText(String.valueOf(team2Score) + "/" + String.valueOf(team2Wickets));
+            ballOverT2.setText(String.valueOf(team2Over) + "." + String.valueOf(team2Ball));
+            btnTeamTwo.setEnabled(true);
+        }
     }
 
     @Override

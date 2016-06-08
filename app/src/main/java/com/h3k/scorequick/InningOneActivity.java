@@ -338,8 +338,12 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
             } else if (v.getId() == R.id.stats) {
                 String[] mOvers = new String[MAX_OVERS];
-                for(int i = 0; i < mOvers.length; i++){
+                int[] mRunsOfOver = new int[MAX_OVERS];
+                int[] mRunsAfterOver = new int[MAX_OVERS];
+                for(int i = 0; i < MAX_OVERS; i++){
                     mOvers[i] = mInnings.getOverOverview(i, true);
+                    mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
+                    mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
                 }
                 int scoreAtInstant = mInnings.getTotalRunScored();
                 int overAtInstant = mInnings.getCurrentOver();
@@ -354,9 +358,10 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 sfEditor.putBoolean(GET_TEAM1STATE, true);
                 sfEditor.putBoolean(GET_TEAM2STATE, false);
 
-                sfEditor.putInt("overOverview_sizeT1", mOvers.length);
-                for(int x = 0; x < mOvers.length; x++) {
+                for(int x = 0; x < MAX_OVERS; x++) {
                     sfEditor.putString("overviewT1_" + x, mOvers[x]);
+                    sfEditor.putInt("runsOfOverT1_" + x, mRunsOfOver[x]);
+                    sfEditor.putInt("runsAfterOverT1_" + x, mRunsAfterOver[x]);
                 }
                 sfEditor.apply();
 
@@ -378,7 +383,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
         mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver(), false));
         if(legalBalls){
-            mInnings.leagalBallsPlayed();
+            mInnings.legalBallsPlayed();
         }
         mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
         if(mInnings.isOverComplete()){
@@ -475,8 +480,12 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
     public void transferToNextInning(){
         String[] mOvers = new String[MAX_OVERS];
+        int[] mRunsOfOver = new int[MAX_OVERS];
+        int[] mRunsAfterOver = new int[MAX_OVERS];
         for(int i = 0; i < MAX_OVERS; i++){
             mOvers[i] = mInnings.getOverOverview(i, true);
+            mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
+            mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
         }
         int scoreAtInstant = mInnings.getTotalRunScored();
         int overAtInstant = mInnings.getCurrentOver();
@@ -491,6 +500,11 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         sfEditor.putBoolean(GET_TEAM1STATE, true);
         sfEditor.putBoolean(GET_TEAM2STATE, false);
 
+        for(int x = 0; x < MAX_OVERS; x++) {
+            sfEditor.putString("overviewT1_" + x, mOvers[x]);
+            sfEditor.putInt("runsOfOverT1_" + x, mRunsOfOver[x]);
+            sfEditor.putInt("runsAfterOverT1_" + x, mRunsAfterOver[x]);
+        }
         sfEditor.apply();
 
         Intent i = new Intent(this, InningTwoActivity.class);

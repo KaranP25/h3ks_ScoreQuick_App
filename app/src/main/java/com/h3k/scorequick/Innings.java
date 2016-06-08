@@ -15,7 +15,7 @@ public class Innings {
             mExtraRunOfBall;
     private ArrayList<String>[] mOvers;
     private boolean isOverDone, inningDone, teamChasing;
-    private int[] runsOfThatOver;
+    private int[] runsOfThatOver, runsAfterOver;
 
     private int mRunsNeededToWin;
 
@@ -29,6 +29,11 @@ public class Innings {
         mRunType = new Runs();
         mOvers = new ArrayList[numOfOvers];
         runsOfThatOver = new int[numOfOvers];
+        runsAfterOver = new int[numOfOvers];
+        for(int i = 0; i < mOvers.length; i++) {
+            runsOfThatOver[i] = 0;
+            runsAfterOver[i] = 0;
+        }
         inningDone = false;
         for(int i = 0; i < mOvers.length; i++) mOvers[i] = new ArrayList<String>();
     }
@@ -126,6 +131,7 @@ public class Innings {
 
     public void setRunScored(Runs.RunsAvalible getRun){
         mRunType.setNumberOfRuns(getRun);
+        runsOfThatOver[mCurrentOver] = runsOfThatOver[mCurrentOver] + mRunType.getRun();
     }
 
     public void setExtraRuns(int extra){
@@ -136,7 +142,7 @@ public class Innings {
         return mRunType.getTotalRuns();
     }
 
-    public void leagalBallsPlayed(){
+    public void legalBallsPlayed(){
         if(mNumOfBallsPlayed < 6) {
             mNumOfBallsPlayed++;
         }
@@ -159,13 +165,13 @@ public class Innings {
         return mCurrentNumOfWickets;
     }
 
-    public void setOverDone(boolean dun){
-       // isOverDone = dun;
-        if(dun) {
+    public void setOverDone(boolean done){
+        if(done) {
             mNumOfBallsPlayed = 0;
+            runsAfterOver[mCurrentOver] = getTotalRunScored();
             mCurrentOver++;
             isOverDone = false;
-        }else if(!dun){
+        }else if(!done){
             mNumOfBallsPlayed = 5;
             isOverDone = false;
         }
@@ -187,6 +193,17 @@ public class Innings {
         return mOvers[overNum].size();
     }
 
+    public int getRunsOfThatOver(int overNum){
+        return runsOfThatOver[overNum];
+    }
+
+    public int getRunsAfterOver(int overNum){
+        if(!isOverComplete()){
+            runsAfterOver[mCurrentOver] = getTotalRunScored();
+        }
+        return runsAfterOver[overNum];
+    }
+
     public void undo(int overNum, boolean ballLegal, boolean wasLastBallWicket){
         if(ballLegal){
             if (mNumOfBallsPlayed != 0) {
@@ -203,6 +220,7 @@ public class Innings {
         }else{
             if(mRunType.getTotalRuns() != 0) {
                 mRunType.removeLastRun();
+                runsOfThatOver[mCurrentOver] = runsOfThatOver[mCurrentOver] - mRunType.getRun();
             }
         }
         if(!mOvers[overNum].isEmpty()) {

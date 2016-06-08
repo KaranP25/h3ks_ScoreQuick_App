@@ -35,15 +35,12 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
     private static final String GET_TEAM1STATE = "getTeam1State";
     private static final String GET_TEAM2STATE = "getTeam2State";
 
-    StatsActivity () {
-
-    }
-
     private SharedPreferences mPrefs;
-    private TextView nameT1, nameT2, scoreT1, scoreT2, ballOverT1, ballOverT2, dnp;
+    private TextView nameT1, nameT2, scoreT1, scoreT2, ballOverT1, ballOverT2, maxPlayer, maxOver;
     private Button detailsT1, detailsT2;
     private Button btnTeamOne, btnTeamTwo;
-    private String[] mOversInning1, mOversInning2;
+    private String[] mOversInningT1, mOversInningT2;
+    private int[] mRunsOfOverT1, mRunsOfOverT2, mRunsAfterOverT1, mRunsAfterOverT2;
 
     private int mOvers;
 
@@ -62,6 +59,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         scoreT2 = (TextView) this.findViewById(R.id.Team2_score);
         ballOverT1 = (TextView) this.findViewById(R.id.Team1_ball);
         ballOverT2 = (TextView) this.findViewById(R.id.Team2_ball);
+        maxPlayer = (TextView) this.findViewById(R.id.max_players) ;
+        maxOver = (TextView) this.findViewById(R.id.max_over);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -69,9 +68,8 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                 team1Ball, team2Ball;
         boolean team1State, team2State;
 
-        Intent i = getIntent();
-        Bundle bundle = i.getExtras();
-        mOversInning1 = bundle.getStringArray("overOverviewT1");
+        final int MAX_OVER = mPrefs.getInt(GET_MAX_OVER, 0);
+        final int MAX_PLAYER = mPrefs.getInt(GET_MAX_PLAYER, 0);
 
         String team1Name = mPrefs.getString(GET_TEAM1_NAME, "Inning 1");
         String team2Name = mPrefs.getString(GET_TEAM2_NAME, "Inning 2");
@@ -87,15 +85,27 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         team2Wickets = mPrefs.getInt(GET_WICKET_T2, 0);
         team2Over = mPrefs.getInt(GET_OVER_T2, 0);
 
-        mOversInning1 = new String[mPrefs.getInt("overOverview_sizeT1", 0)];
-        for(int x = 0; x < mOversInning1.length; x++) {
-            mOversInning1[x] = mPrefs.getString("overviewT1_" + x, null);
-        }
-        mOversInning2 = new String[mPrefs.getInt("overOverview_sizeT2", 0)];
-        for(int x = 0; x < mOversInning2.length; x++) {
-            mOversInning2[x] = mPrefs.getString("overviewT2_" + x, null);
+        mOversInningT1 = new String[MAX_OVER];
+        mRunsOfOverT1 = new int[MAX_OVER];
+        mRunsAfterOverT1 = new int[MAX_OVER];
+        for(int x = 0; x < MAX_OVER; x++) {
+            mOversInningT1[x] = mPrefs.getString("overviewT1_" + x, "");
+            mRunsOfOverT1[x] = mPrefs.getInt("runsOfOverT1_" + x, 0);
+            mRunsAfterOverT1[x] = mPrefs.getInt("runsAfterOverT1_" + x, 0);
         }
 
+        mOversInningT2 = new String[MAX_OVER];
+        mRunsOfOverT2 = new int[MAX_OVER];
+        mRunsAfterOverT2 = new int[MAX_OVER];
+        //mOversInning2 = new String[mPrefs.getInt("overOverview_sizeT2", 0)];
+        for(int x = 0; x < MAX_OVER; x++) {
+            mOversInningT2[x] = mPrefs.getString("overviewT2_" + x, "");
+            mRunsOfOverT2[x] = mPrefs.getInt("runsOfOverT2_" + x, 0);
+            mRunsAfterOverT2[x] = mPrefs.getInt("runsAfterOverT2_" + x, 0);
+        }
+
+        maxPlayer.setText("Players Playing: " + MAX_PLAYER);
+        maxOver.setText("Max Overs: " + MAX_OVER);
         nameT1.setText(team1Name + " (Inning 1)");
         nameT1.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         nameT2.setText(team2Name + " (Inning 2)");
@@ -126,16 +136,17 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
             vh.setOrientation(LinearLayout.VERTICAL);
             s.addView(vh);
             vh.addView(new TextView(this));
-            for (int i = 0; i < mOversInning1.length; i++){
+            for (int i = 0; i < mOversInningT1.length; i++){
                 TextView t = new TextView(this);
                 String message;
-                if(mOversInning1[i].isEmpty()){
+                if(mOversInningT1[i].isEmpty()){
                     message = " OVER NOT PLAYED YET";
                 }else {
-                    message = mOversInning1[i];
+                    message = " " + mOversInningT1[i] + " = " + String.valueOf(mRunsOfOverT1[i]) + "  > " +
+                    String.valueOf(mRunsAfterOverT1[i] + " total Runs");
                 }
-                t.setText("   Over " + (i + 1) + ": " + message);
-                t.setTextSize(15);
+                t.setText("  Over " + (i + 1) + ": " + message);
+                t.setTextSize(16);
                 vh.addView(t);
             }
             new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener(){

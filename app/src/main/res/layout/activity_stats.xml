@@ -15,7 +15,32 @@
         android:layout_height="match_parent"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="50dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/max_players"
+                android:id="@+id/max_players"
+                android:layout_weight="1"
+                android:gravity="center|start"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/max_over"
+                android:id="@+id/max_over"
+                android:layout_weight="1"
+                android:gravity="center|end"/>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -23,6 +48,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/Team1_name"
             android:id="@+id/Team1_name"
+            android:layout_marginTop="20dp"
             android:textSize="30dp"
             android:layout_gravity="center_horizontal"
             android:gravity="fill_horizontal|center"/>
@@ -63,25 +89,17 @@
             android:id="@+id/Team1_btn"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="15dp"/>
 
-        <LinearLayout
-            android:orientation="horizontal"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/Team2_name"
+            android:id="@+id/Team2_name"
+            android:textSize="30dp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="@string/Team2_name"
-                android:id="@+id/Team2_name"
-                android:textSize="30dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="fill_horizontal|center"/>
-        </LinearLayout>
+            android:gravity="fill_horizontal|center"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -119,6 +137,6 @@
             android:id="@+id/Team2_btn"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="15dp"/>
     </LinearLayout>
 </RelativeLayout>

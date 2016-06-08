@@ -336,17 +336,18 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         }).show();
 
             } else if (v.getId() == R.id.stats) {
-
                 String[] mOvers = new String[MAX_OVERS];
+                int[] mRunsOfOver = new int[MAX_OVERS];
+                int[] mRunsAfterOver = new int[MAX_OVERS];
                 for(int i = 0; i < MAX_OVERS; i++){
                     mOvers[i] = mInnings.getOverOverview(i, true);
+                    mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
+                    mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
                 }
                 int scoreAtInstant = mInnings.getTotalRunScored();
                 int overAtInstant = mInnings.getCurrentOver();
                 int ballsPlayedAtInstant = mInnings.getNumOfBallsPlayed();
                 int wicketFallenAtInstant = mInnings.getCurrentNumOfWickets();
-
-                Intent i = new Intent(this, StatsActivity.class);
 
                 SharedPreferences.Editor sfEditor = mSharedPreferences.edit();
                 sfEditor.putInt(GET_SCORE_T2, scoreAtInstant);
@@ -356,26 +357,14 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 sfEditor.putBoolean(GET_TEAM2STATE, true);
                 sfEditor.putBoolean(GET_TEAM1STATE, false);
 
-                sfEditor.putInt("overOverview_sizeT2", mOvers.length);
-                for(int x = 0; x < mOvers.length; x++) {
+                for(int x = 0; x < MAX_OVERS; x++) {
                     sfEditor.putString("overviewT2_" + x, mOvers[x]);
+                    sfEditor.putInt("runsOfOverT2_" + x, mRunsOfOver[x]);
+                    sfEditor.putInt("runsAfterOverT2_" + x, mRunsAfterOver[x]);
                 }
                 sfEditor.apply();
 
-                sfEditor.apply();
-
-                Bundle bundle = new Bundle();
-                //bundle.put("getTeam1Name", TEAM_1NAME);
-                //bundle.putString("getTeam2Name", TEAM_2NAME);
-                bundle.putStringArray("overOverviewT2", mOvers);
-                /*bundle.putInt("getScoreT1", scoreAtInstant);
-                bundle.putInt("getOverT1", overAtInstant);
-                bundle.putInt("getBallsT1", ballsPlayedAtInstant);
-                bundle.putInt("getWicketT1", wicketFallenAtInstant);
-                bundle.putBoolean("getTeam1State", true);
-                bundle.putBoolean("getTeam2State", false);*/
-                i.putExtras(bundle);
-
+                Intent i = new Intent(this, StatsActivity.class);
                 startActivity(i);
             } else if (v.getId() == R.id.undo) {
                 mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
@@ -400,7 +389,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
         mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver(), false));
         if(legalBalls){
-            mInnings.leagalBallsPlayed();
+            mInnings.legalBallsPlayed();
         }
         mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
         if(mInnings.isOverComplete()){
@@ -492,6 +481,39 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
             mStatsBtn.setEnabled(false);
             mUndoBtn.setEnabled(false);
         }
+    }
+
+    public void transferToNextInning(){
+        String[] mOvers = new String[MAX_OVERS];
+        int[] mRunsOfOver = new int[MAX_OVERS];
+        int[] mRunsAfterOver = new int[MAX_OVERS];
+        for(int i = 0; i < MAX_OVERS; i++){
+            mOvers[i] = mInnings.getOverOverview(i, true);
+            mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
+            mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
+        }
+        int scoreAtInstant = mInnings.getTotalRunScored();
+        int overAtInstant = mInnings.getCurrentOver();
+        int ballsPlayedAtInstant = mInnings.getNumOfBallsPlayed();
+        int wicketFallenAtInstant = mInnings.getCurrentNumOfWickets();
+
+        SharedPreferences.Editor sfEditor = mSharedPreferences.edit();
+        sfEditor.putInt(GET_SCORE_T2, scoreAtInstant);
+        sfEditor.putInt(GET_OVER_T2, overAtInstant);
+        sfEditor.putInt(GET_BALLS_T2, ballsPlayedAtInstant);
+        sfEditor.putInt(GET_WICKET_T2, wicketFallenAtInstant);
+        sfEditor.putBoolean(GET_TEAM2STATE, true);
+        sfEditor.putBoolean(GET_TEAM1STATE, false);
+
+        for(int x = 0; x < MAX_OVERS; x++) {
+            sfEditor.putString("overviewT2_" + x, mOvers[x]);
+            sfEditor.putInt("runsOfOverT2_" + x, mRunsOfOver[x]);
+            sfEditor.putInt("runsAfterOverT2_" + x, mRunsAfterOver[x]);
+        }
+        sfEditor.apply();
+
+        Intent i = new Intent(this, StatsActivity.class);
+        startActivity(i);
     }
 
 }

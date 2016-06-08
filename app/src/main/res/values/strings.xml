@@ -4,6 +4,8 @@
     <string name="stats">Stats</string>
     <string name="undo">Undo</string>
     <string name="start_Inning1">Start Inning 1</string>
+    <string name="max_over">[MAX OVER]</string>
+    <string name="max_players">[MAX PLAYERS]</string>
 
     <string name="score_overview"><u><b>[SCORE OVERVIEW]</b></u></string>
     <string name="ball_overview"><u><b>[OVER/BALL OVERVIEW]</b></u></string>

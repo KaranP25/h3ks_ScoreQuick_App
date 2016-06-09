@@ -11,8 +11,15 @@
         android:text="@string/Team1_name"
         android:id="@+id/Team1_name"
         android:textSize="30sp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"/>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:background="@android:color/darker_gray"
+        android:layout_alignTop="@+id/score_overview"
+        android:layout_alignParentEnd="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +28,7 @@
         android:text="@string/score_overview"
         android:id="@+id/score_overview"
         android:textSize="44sp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/Team1_name"/>
 
     <TextView
@@ -30,7 +37,7 @@
         android:text="@string/ball_overview"
         android:textSize="44sp"
         android:id="@+id/ball_overview"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/Team1_name"
         android:layout_alignEnd="@+id/gridLayout"/>
 
@@ -41,7 +48,7 @@
         android:text="@string/this_over"
         android:textSize="14sp"
         android:id="@+id/this_over"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_below="@+id/score_overview"
         android:layout_alignParentStart="true"/>
 

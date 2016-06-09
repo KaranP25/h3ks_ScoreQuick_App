@@ -114,7 +114,6 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         mOverAndBallLeft = (TextView) this.findViewById(R.id.ball_overview);
         mTeamName = (TextView) this.findViewById(R.id.Team2_name);
         mTeamName.setText("Inning 2 of " + team2Name);
-        mTeamName.setPaintFlags(mTeamName.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
 
         setTotal();
         //setBoardVisible(mInnings.hasInningStarted());
@@ -124,222 +123,243 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         if(!mInnings.isInningDone()) {
             if (v.getId() == R.id.zero_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.DOT_BALL);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.DOT_BALL));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
-                mUndoBtn.setEnabled(true);
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.DOT_BALL);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.DOT_BALL));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(true);
+                }
             } else if (v.getId() == R.id.one_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.SINGLE_RUN);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.ONE));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
-                mUndoBtn.setEnabled(true);
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.SINGLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.ONE));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(true);
+                }
             } else if (v.getId() == R.id.two_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.DOUBLE_RUN);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.TWO));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
-                mUndoBtn.setEnabled(true);
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.DOUBLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.TWO));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(true);
+                }
             } else if (v.getId() == R.id.three_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.TRIPLE_RUN);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.THREE));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
-                mUndoBtn.setEnabled(true);
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.TRIPLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.THREE));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(true);
+                }
             } else if (v.getId() == R.id.four_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.FOUR_RUN);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.FOUR));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.FOUR_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.FOUR));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                }
             } else if (v.getId() == R.id.six_run) {
-                mInnings.setRunScored(Runs.RunsAvalible.SIX_RUN);
-                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.SIX));
-                legalBalls = true;
-                lastBallWicket = false;
-                setTotal();
-                mUndoBtn.setEnabled(true);
+                if (!mInnings.isOverComplete()) {
+                    mInnings.setRunScored(Runs.RunsAvalible.SIX_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.SIX));
+                    legalBalls = true;
+                    lastBallWicket = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(true);
+                }
             } else if (v.getId() == R.id.byes) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Bye Runs")
-                        .setItems(byeType, new DialogInterface.OnClickListener() {
+                if (!mInnings.isOverComplete()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Bye Runs")
+                            .setItems(byeType, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        byes = 1;
-                                        break;
-                                    case 1:
-                                        byes = 2;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
-                                        break;
-                                    case 2:
-                                        byes = 3;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
-                                        break;
-                                    case 3:
-                                        byes = 4;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
-                                        break;
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            byes = 1;
+                                            break;
+                                        case 1:
+                                            byes = 2;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            break;
+                                        case 2:
+                                            byes = 3;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            break;
+                                        case 3:
+                                            byes = 4;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            break;
+                                    }
+                                    mInnings.setExtraRuns(byes);
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.BYES));
+                                    legalBalls = true;
+                                    lastBallWicket = false;
+                                    setTotal();
+                                    mUndoBtn.setEnabled(true);
                                 }
-                                mInnings.setExtraRuns(byes);
-                                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.BYES));
-                                legalBalls = true;
-                                lastBallWicket = false;
-                                setTotal();
-                                mUndoBtn.setEnabled(true);
-                            }
-                        })
-                        .show();
-
+                            })
+                            .show();
+                }
             } else if (v.getId() == R.id.leg_byes) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Leg Bye Runs")
-                        .setItems(byeType, new DialogInterface.OnClickListener() {
+                if (!mInnings.isOverComplete()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Leg Bye Runs")
+                            .setItems(byeType, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        legByes = 1;
-                                        break;
-                                    case 1:
-                                        legByes = 2;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
-                                        break;
-                                    case 2:
-                                        legByes = 3;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
-                                        break;
-                                    case 3:
-                                        legByes = 4;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
-                                        break;
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            legByes = 1;
+                                            break;
+                                        case 1:
+                                            legByes = 2;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            break;
+                                        case 2:
+                                            legByes = 3;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            break;
+                                        case 3:
+                                            legByes = 4;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            break;
+                                    }
+                                    mInnings.setExtraRuns(legByes);
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.LEGBYES));
+                                    legalBalls = true;
+                                    lastBallWicket = false;
+                                    setTotal();
+                                    mUndoBtn.setEnabled(true);
                                 }
-                                mInnings.setExtraRuns(legByes);
-                                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.LEGBYES));
-                                legalBalls = true;
-                                lastBallWicket = false;
-                                setTotal();
-                                mUndoBtn.setEnabled(true);
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
+                }
             } else if (v.getId() == R.id.wides) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Wide + Bye Runs")
-                        .setItems(runsOfExtras, new DialogInterface.OnClickListener() {
+                if (!mInnings.isOverComplete()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Wide + Bye Runs")
+                            .setItems(runsOfExtras, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        wideRuns = extraRun;
-                                        break;
-                                    case 1:
-                                        wideRuns = extraRun + 1;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
-                                        break;
-                                    case 2:
-                                        wideRuns = extraRun + 2;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
-                                        break;
-                                    case 3:
-                                        wideRuns = extraRun + 3;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
-                                        break;
-                                    case 4:
-                                        wideRuns = extraRun + 4;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
-                                        break;
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            wideRuns = extraRun;
+                                            break;
+                                        case 1:
+                                            wideRuns = extraRun + 1;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
+                                            break;
+                                        case 2:
+                                            wideRuns = extraRun + 2;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            break;
+                                        case 3:
+                                            wideRuns = extraRun + 3;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            break;
+                                        case 4:
+                                            wideRuns = extraRun + 4;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            break;
+                                    }
+                                    mInnings.setExtraRuns(wideRuns);
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WIDEBALL));
+                                    legalBalls = false;
+                                    lastBallWicket = false;
+                                    setTotal();
+                                    mUndoBtn.setEnabled(true);
                                 }
-                                mInnings.setExtraRuns(wideRuns);
-                                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WIDEBALL));
-                                legalBalls = false;
-                                lastBallWicket = false;
-                                setTotal();
-                                mUndoBtn.setEnabled(true);
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
+                }
             } else if (v.getId() == R.id.no_ball) {
-                new AlertDialog.Builder(this)
-                        .setTitle("No Ball + Bye Runs")
-                        .setItems(runsOfExtras, new DialogInterface.OnClickListener() {
+                if (!mInnings.isOverComplete()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("No Ball + Bye Runs")
+                            .setItems(runsOfExtras, new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        noBallRuns = extraRun;
-                                        break;
-                                    case 1:
-                                        noBallRuns = extraRun + 1;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
-                                        break;
-                                    case 2:
-                                        noBallRuns = extraRun + 2;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
-                                        break;
-                                    case 3:
-                                        noBallRuns = extraRun + 3;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
-                                        break;
-                                    case 4:
-                                        noBallRuns = extraRun + 4;
-                                        mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
-                                        break;
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            noBallRuns = extraRun;
+                                            break;
+                                        case 1:
+                                            noBallRuns = extraRun + 1;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
+                                            break;
+                                        case 2:
+                                            noBallRuns = extraRun + 2;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            break;
+                                        case 3:
+                                            noBallRuns = extraRun + 3;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            break;
+                                        case 4:
+                                            noBallRuns = extraRun + 4;
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            break;
+                                    }
+                                    mInnings.setExtraRuns(noBallRuns);
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.NO_BALL));
+                                    legalBalls = false;
+                                    lastBallWicket = false;
+                                    setTotal();
+                                    mUndoBtn.setEnabled(true);
                                 }
-                                mInnings.setExtraRuns(noBallRuns);
-                                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.NO_BALL));
-                                legalBalls = false;
-                                lastBallWicket = false;
-                                setTotal();
-                                mUndoBtn.setEnabled(true);
-                            }
-                        })
-                        .show();
+                            })
+                            .show();
+                }
             } else if (v.getId() == R.id.wicket) {
-                new AlertDialog.Builder(this)
-                        .setTitle("Type of Wicket")
-                        .setItems(wicketType, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which) {
-                                    case 0:
-                                        mInnings.setFallenWicket(WicketsType.CAUGHT);
-                                        break;
-                                    case 1:
-                                        mInnings.setFallenWicket(WicketsType.BOWLED);
-                                        break;
-                                    case 2:
-                                        mInnings.setFallenWicket(WicketsType.LBW);
-                                        break;
-                                    case 3:
-                                        mInnings.setFallenWicket(WicketsType.RUN_OUT);
-                                        break;
-                                    case 4:
-                                        mInnings.setFallenWicket(WicketsType.STUMPED);
-                                        break;
-                                    case 5:
-                                        mInnings.setFallenWicket(WicketsType.HIT_WICKET);
-                                        break;
-                                    case 6:
-                                        mInnings.setFallenWicket(WicketsType.RETIRED_HURT);
-                                        break;
+                if (!mInnings.isOverComplete()) {
+                    new AlertDialog.Builder(this)
+                            .setTitle("Type of Wicket")
+                            .setItems(wicketType, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    switch (which) {
+                                        case 0:
+                                            mInnings.setFallenWicket(WicketsType.CAUGHT);
+                                            break;
+                                        case 1:
+                                            mInnings.setFallenWicket(WicketsType.BOWLED);
+                                            break;
+                                        case 2:
+                                            mInnings.setFallenWicket(WicketsType.LBW);
+                                            break;
+                                        case 3:
+                                            mInnings.setFallenWicket(WicketsType.RUN_OUT);
+                                            break;
+                                        case 4:
+                                            mInnings.setFallenWicket(WicketsType.STUMPED);
+                                            break;
+                                        case 5:
+                                            mInnings.setFallenWicket(WicketsType.HIT_WICKET);
+                                            break;
+                                        case 6:
+                                            mInnings.setFallenWicket(WicketsType.RETIRED_HURT);
+                                            break;
+                                    }
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WICKET));
+                                    legalBalls = true;
+                                    lastBallWicket = true;
+                                    setTotal();
+                                    mUndoBtn.setEnabled(true);
                                 }
-                                mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WICKET));
-                                legalBalls = true;
-                                lastBallWicket = true;
-                                setTotal();
-                                mUndoBtn.setEnabled(true);
-                            }
-                        }).show();
+                            }).show();
+                }
 
             } else if (v.getId() == R.id.stats) {
                 String[] mOvers = new String[MAX_OVERS];
@@ -433,7 +453,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         }
 
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("Undo Last Ball", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);

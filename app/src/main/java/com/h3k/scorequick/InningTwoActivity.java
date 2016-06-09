@@ -436,9 +436,9 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
                 vh.addView(new TextView(this));
                 TextView x = new TextView(this);
-                x.setText("                                                         MOVE TO NEXT OVER?");
+                x.setText("                                                                     Over Complete");
                 vh.addView(x);
-                new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Next Over", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mInnings.setOverDone(true);
@@ -453,7 +453,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         }
 
                     }
-                }).setNegativeButton("Undo Last Ball", new DialogInterface.OnClickListener() {
+                }).setNegativeButton("Undo", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
@@ -472,8 +472,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     private void inningCompletionPrompt(){
         new AlertDialog.Builder(this)
                 .setTitle("Inning Complete")
-                .setMessage("Inning 2 Complete.\n")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                .setMessage("Completion of Inning 2\n")
+                .setPositiveButton("Next", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setBoardVisible(false);

@@ -466,8 +466,8 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                            finish();
+                            android.os.Process.killProcess(android.os.Process.myPid());
+
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -481,7 +481,6 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         }
         return true;
     }
-
     private void inningCompletionPrompt(){
         new AlertDialog.Builder(this)
                 .setTitle("Inning Complete")
@@ -559,6 +558,8 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
         Intent i = new Intent(this, InningTwoActivity.class);
         i.putExtra("runsMadeInInning1", mInnings.getTotalRunScored());
+        i.putExtra("totalBallsBowledInning1", mInnings.getTotalBallsBowled());
+        i.putExtra("wicketsInning1", mInnings.getTotalBallsBowled());
         startActivity(i);
 
     }

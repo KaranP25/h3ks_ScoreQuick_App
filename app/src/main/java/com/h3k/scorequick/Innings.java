@@ -11,7 +11,7 @@ public class Innings {
     private int mRunScored;
     private Runs mRunType;
     private String mInningOf, mWicketFalenType;
-    private int mTotalOvers, mCurrentOver = 0, mNumOfBallsPlayed = 0, mRuns, mExtraRuns, mWicketNeeded, mCurrentNumOfWickets,
+    private int mTotalOvers, mCurrentOver = 0, mNumOfBallsPlayed = 0, mWicketNeeded, mCurrentNumOfWickets,
             mExtraRunOfBall;
     private ArrayList<String>[] mOvers;
     private boolean isOverDone, inningDone, teamChasing;
@@ -202,6 +202,10 @@ public class Innings {
             runsAfterOver[mCurrentOver] = getTotalRunScored();
         }
         return runsAfterOver[overNum];
+    }
+
+    public int getTotalBallsBowled(){
+        return mCurrentOver * 6 + mNumOfBallsPlayed;
     }
 
     public void undo(int overNum, boolean ballLegal, boolean wasLastBallWicket){

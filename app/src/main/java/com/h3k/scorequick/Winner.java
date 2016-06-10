@@ -5,70 +5,129 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 /**
- * Created by Karan on 6/9/2016.
+ * This class obtains who the winner is.
  */
 public class Winner {
     private static final String GET_MAX_OVER = "getMaxOvers";
     private static final String GET_MAX_PLAYER = "getMaxPlayers";
+    private static final String GET_TEAM1_NAME = "getTeam1Name";
+    private static final String GET_TEAM2_NAME = "getTeam2Name";
     private SharedPreferences mPrefs;
+    private int teamARuns, teamBRuns, teamAWickets, teamBWickets, teamABalls, teamBBalls;
+    private String send, teamAName, teamBName;
+    private int MAX_OVER, MAX_PLAYER;
 
-    private int teamARuns, teamBRuns, teamAWickets, teamBWickets;
-    private String send ;
-
-    public Winner (Context context){
+    /**
+     * Constructor of Winner class.
+     * @param context
+     */
+    public Winner(Context context) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-        final int MAX_OVER = mPrefs.getInt(GET_MAX_OVER, 0);
-        final int MAX_PLAYER = mPrefs.getInt(GET_MAX_PLAYER, 0);
+        MAX_OVER = mPrefs.getInt(GET_MAX_OVER, 0);
+        MAX_PLAYER = mPrefs.getInt(GET_MAX_PLAYER, 0);
+        teamAName = mPrefs.getString(GET_TEAM1_NAME, " ");
+        teamBName = mPrefs.getString(GET_TEAM2_NAME, " ");
     }
-    public void setTeamAName(int runs){
+
+    /**
+     * This method sets runs scored by team a.
+     * @param runs
+     */
+    public void setTeamARuns(int runs) {
         this.teamARuns = runs;
     }
 
-    public void setTeamBName(String name){
+    /**
+     * This method sets runs scored by team b.
+     * @param runs
+     */
+    public void setTeamBRuns(int runs) {
         this.teamBRuns = runs;
     }
 
-    public void setTeamARuns(int runs){
-        this.teamARuns = runs;
-    }
-
-    public void setTeamBRuns(int runs){
-        this.teamBRuns = runs;
-    }
-
-    public void setTeamAWickets(int wickets){
+    /**
+     * This method sets the number of players got out from team a.
+     * @param wickets
+     */
+    public void setTeamAWickets(int wickets) {
         this.teamAWickets = wickets;
     }
 
-    public void setTeamBWickets(int wickets){
+    /**
+     * This method sets the number of players got out from team b.
+     * @param wickets
+     */
+    public void setTeamBWickets(int wickets) {
         this.teamBWickets = wickets;
     }
 
+    /**
+     * This method sets the balls played by team a.
+     * @param balls
+     */
+    public void setTeamABalls(int balls) {this.teamABalls = balls;}
+
+    /**
+     * This method sets the balls played by team b.
+     * @param balls
+     */
+    public void setTeamBBalls(int balls) {this.teamBBalls = balls;}
+
+    /**
+     * This method gets the number of players got out from team a.
+     * @return
+     */
     public int getTeamAWickets() {
         return teamAWickets;
     }
 
+    /**
+     * This method gets the number of players got out from team b.
+     * @return
+     */
     public int getTeamBWickets() {
         return teamBWickets;
     }
 
-    public int getTeamARuns(){
+    /**
+     * This method gets the number of runs scored by team a.
+     * @return
+     */
+    public int getTeamARuns() {
         return teamARuns;
     }
 
-    public int getTeamBRuns(){
+    /**
+     * This method gets the number of runs scored by team b.
+     * @return
+     */
+    public int getTeamBRuns() {
         return teamBRuns;
     }
 
-    public String whoWon(){
+    /**
+     * This method gets the number of balls played by team a.
+     * @return
+     */
+    public int getTeamABalls(){ return teamABalls;}
 
-        if(teamARuns > teamBRuns){
-            send = "team a won";
+    /**
+     * This method gets the number of balls played by team b.
+     * @return
+     */
+    public int getTeamBBalls(){ return teamBBalls;}
+
+    /**
+     * This method finds which team won.
+     * @return
+     */
+    public String whoWon() {
+
+        if (teamARuns > teamBRuns) {
+            send = "Team " + teamAName + " won by: " + String.valueOf(getTeamARuns() - getTeamBRuns()) + " runs.";
+        } else if (teamARuns < teamBRuns) {
+            send = "Team: " + teamBName + " won by: " + String.valueOf(MAX_PLAYER - getTeamBWickets() - 1) + " wickets";
         }
-        else if (teamARuns < teamBRuns){
-            send = "team b won";
-        }
-        if (teamBWickets == )
-        return send ;
+        return send;
     }
 }

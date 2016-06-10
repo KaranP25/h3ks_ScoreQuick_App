@@ -38,9 +38,9 @@ public class Innings {
         for(int i = 0; i < mOvers.length; i++) mOvers[i] = new ArrayList<String>();
     }
 
-    public void setRunsNeededToWin(int runs){
+    public void setRunsNeededToWin(int runsMade){
         if(teamChasing) {
-            this.mRunsNeededToWin = runs;
+            this.mRunsNeededToWin = runsMade + 1;
         }
     }
 
@@ -229,6 +229,7 @@ public class Innings {
     }
 
     public boolean isInningDone(){
+        checkInningDone();
         if(inningDone){
             return true;
         }else {
@@ -236,12 +237,12 @@ public class Innings {
         }
     }
 
-    public void checkInningDone(){
+    private void checkInningDone(){
         if(mCurrentOver == mTotalOvers){
             inningDone = true;
         }else if(mCurrentNumOfWickets == mWicketNeeded){
             inningDone = true;
-        }else if((mRunsNeededToWin <  mRunType.getTotalRuns()) && teamChasing){
+        }else if((mRunsNeededToWin <=  mRunType.getTotalRuns()) && teamChasing){
             inningDone = true;
         }else{
             inningDone = false;

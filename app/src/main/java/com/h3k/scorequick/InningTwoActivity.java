@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -45,7 +46,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     private Innings mInnings;
     private boolean legalBalls, lastBallWicket;
 
-    private int MAX_OVERS, MAX_PLAYER, runNeededToWin;
+    private int MAX_OVERS, MAX_PLAYER, runMadeByTeam1;
     private String team2Name;
 
     private SharedPreferences mSharedPreferences;
@@ -66,7 +67,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         Intent i = getIntent();
-        runNeededToWin = i.getIntExtra("getRunNeededToWin", 0);
+        runMadeByTeam1 = i.getIntExtra("runsMadeInInning1", 0);
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
@@ -76,7 +77,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
 
         mInnings = new Innings(team2Name, MAX_OVERS, MAX_PLAYER, true);
         // true because team 2 is chasing team 1 runs
-        mInnings.setRunsNeededToWin(runNeededToWin);
+        mInnings.setRunsNeededToWin(runMadeByTeam1);
 
         //Toast.makeText(this, MAX_OVERS, Toast.LENGTH_SHORT).show();
 
@@ -418,7 +419,6 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
             mInnings.legalBallsPlayed();
         }
         mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
-        mInnings.checkInningDone();
         if(mInnings.isInningDone()){
             inningCompletionPrompt();
         }else{
@@ -447,7 +447,6 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
                         legalBalls = false;
                         mUndoBtn.setEnabled(false);
-                        mInnings.checkInningDone();
                         if (mInnings.isInningDone()) {
                             inningCompletionPrompt();
                         }
@@ -477,6 +476,9 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setBoardVisible(false);
+                        transferData();
+                        Intent i = new Intent(InningTwoActivity.this, StatsActivity.class);
+                        startActivity(i);
                     }
                 }).setCancelable(false).show();
     }
@@ -514,7 +516,29 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    public void transferToNextInning(){
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            new android.support.v7.app.AlertDialog.Builder(InningTwoActivity.this).setTitle("Exit Application?")
+                    .setMessage("Do you want to quit this application?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    }).show();
+
+        }
+        return true;
+    }
+
+    public void transferData(){
         String[] mOvers = new String[MAX_OVERS];
         int[] mRunsOfOver = new int[MAX_OVERS];
         int[] mRunsAfterOver = new int[MAX_OVERS];
@@ -545,6 +569,10 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
 
         Intent i = new Intent(this, StatsActivity.class);
         startActivity(i);
+    }
+
+    public void getWinner(){
+        Winner findWin = new Winner(getBaseContext());
     }
 
 }

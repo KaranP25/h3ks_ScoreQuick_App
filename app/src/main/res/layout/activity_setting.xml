@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/num_total_player"
                 android:layout_weight="1"
-                android:hint="# of Players playing"
+                android:hint="# of Players/Team"
                 android:layout_row="3"
                 android:layout_column="1"
                 android:gravity="center"

@@ -9,5 +9,3 @@
   <li>Undo any mistakes made by the user
   <li>Shows history of each over bowled
 </ul>
-## Screenshots:
-![](http://i.imgur.com/UmvKkzh.jpg?1)

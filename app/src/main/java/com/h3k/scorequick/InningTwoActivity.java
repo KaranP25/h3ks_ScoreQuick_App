@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 /**
  * This class is used for second inning of the game.
+ * @author Karan P., Karan J., Kalpit
  */
 public class InningTwoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_TEAM2_NAME = "getTeam2Name";
@@ -34,11 +35,11 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     private String wicketType[] = {WicketsType.CAUGHT.value, WicketsType.BOWLED.value, WicketsType.LBW.value,
             WicketsType.RUN_OUT.value, WicketsType.STUMPED.value, WicketsType.HIT_WICKET.value, WicketsType.RETIRED_HURT.value};
     private int byes, legByes, wideRuns, noBallRuns, wickets;
-    private String byeType[] = {String.valueOf(Runs.RunsAvailable.SINGLE_RUN.value), String.valueOf(Runs.RunsAvailable.DOUBLE_RUN.value),
-            String.valueOf(Runs.RunsAvailable.TRIPLE_RUN.value), String.valueOf(Runs.RunsAvailable.FOUR_RUN.value)};
-    private String runsOfExtras[] = {String.valueOf(Runs.RunsAvailable.DOT_BALL.value), String.valueOf(Runs.RunsAvailable.SINGLE_RUN.value),
-            String.valueOf(Runs.RunsAvailable.DOUBLE_RUN.value), String.valueOf(Runs.RunsAvailable.TRIPLE_RUN.value),
-            String.valueOf(Runs.RunsAvailable.FOUR_RUN.value)};
+    private String byeType[] = {String.valueOf(RunsAvailable.SINGLE_RUN.value), String.valueOf(RunsAvailable.DOUBLE_RUN.value),
+            String.valueOf(RunsAvailable.TRIPLE_RUN.value), String.valueOf(RunsAvailable.FOUR_RUN.value)};
+    private String runsOfExtras[] = {String.valueOf(RunsAvailable.DOT_BALL.value), String.valueOf(RunsAvailable.SINGLE_RUN.value),
+            String.valueOf(RunsAvailable.DOUBLE_RUN.value), String.valueOf(RunsAvailable.TRIPLE_RUN.value),
+            String.valueOf(RunsAvailable.FOUR_RUN.value)};
     private final int extraRun = 1;
     private Innings mInnings;
     private boolean legalBalls, lastBallWicket;
@@ -126,8 +127,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         if (!mInnings.isInningDone()) {
             if (v.getId() == R.id.zero_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.DOT_BALL);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.DOT_BALL));
+                    mInnings.setRunScored(RunsAvailable.DOT_BALL);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.DOT_BALL));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
@@ -135,8 +136,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.one_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.SINGLE_RUN);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.ONE));
+                    mInnings.setRunScored(RunsAvailable.SINGLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.ONE));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
@@ -144,8 +145,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.two_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.DOUBLE_RUN);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.TWO));
+                    mInnings.setRunScored(RunsAvailable.DOUBLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.TWO));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
@@ -153,8 +154,8 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.three_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.TRIPLE_RUN);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.THREE));
+                    mInnings.setRunScored(RunsAvailable.TRIPLE_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.THREE));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
@@ -162,16 +163,16 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.four_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.FOUR_RUN);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.FOUR));
+                    mInnings.setRunScored(RunsAvailable.FOUR_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.FOUR));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
                 }
             } else if (v.getId() == R.id.six_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvailable.SIX_RUN);
-                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.SIX));
+                    mInnings.setRunScored(RunsAvailable.SIX_RUN);
+                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.SIX));
                     legalBalls = true;
                     lastBallWicket = false;
                     setTotal();
@@ -191,19 +192,19 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             byes = 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 2:
                                             byes = 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 3:
                                             byes = 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(byes);
-                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.BYES));
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.BYES));
                                     legalBalls = true;
                                     lastBallWicket = false;
                                     setTotal();
@@ -226,19 +227,19 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             legByes = 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 2:
                                             legByes = 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 3:
                                             legByes = 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(legByes);
-                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.LEGBYES));
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.LEGBYES));
                                     legalBalls = true;
                                     lastBallWicket = false;
                                     setTotal();
@@ -261,23 +262,23 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             wideRuns = extraRun + 1;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.SINGLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.SINGLE_RUN);
                                             break;
                                         case 2:
                                             wideRuns = extraRun + 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 3:
                                             wideRuns = extraRun + 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 4:
                                             wideRuns = extraRun + 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(wideRuns);
-                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WIDEBALL));
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.WIDEBALL));
                                     legalBalls = false;
                                     lastBallWicket = false;
                                     setTotal();
@@ -300,23 +301,23 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             noBallRuns = extraRun + 1;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.SINGLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.SINGLE_RUN);
                                             break;
                                         case 2:
                                             noBallRuns = extraRun + 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 3:
                                             noBallRuns = extraRun + 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 4:
                                             noBallRuns = extraRun + 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(noBallRuns);
-                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.NO_BALL));
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.NO_BALL));
                                     legalBalls = false;
                                     lastBallWicket = false;
                                     setTotal();
@@ -354,7 +355,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             mInnings.setFallenWicket(WicketsType.RETIRED_HURT);
                                             break;
                                     }
-                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.WICKET));
+                                    mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.WICKET));
                                     legalBalls = true;
                                     lastBallWicket = true;
                                     setTotal();
@@ -602,7 +603,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     }
 
     public String getWinner() {
-        Winner findWin = new Winner(getBaseContext());
+        WinnerFinder findWin = new WinnerFinder(getBaseContext());
 
         findWin.setTeamARuns(runMadeByT1);
         findWin.setTeamBRuns(mInnings.getTotalRunScored());
@@ -614,5 +615,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         String msg = findWin.whoWon();
         return msg;
     }
+
+
 
 }

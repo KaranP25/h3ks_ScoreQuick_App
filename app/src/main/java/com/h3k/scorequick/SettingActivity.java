@@ -26,7 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * This class is used to get the settings of the game (# of players, # of wickets etc...).
+ * This class is used to get the settings of the game (# of players, # of wickets etc...)
+ * @author Karan P., Karan J., Kalpit
  */
 public class SettingActivity extends AppCompatActivity {
 
@@ -42,8 +43,7 @@ public class SettingActivity extends AppCompatActivity {
     /**
      * Constructor of SettingsActivity
      */
-    SettingActivity() {
-
+    public SettingActivity() {
     }
 
     /**

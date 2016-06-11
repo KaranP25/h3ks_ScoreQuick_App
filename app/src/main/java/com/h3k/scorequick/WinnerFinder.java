@@ -6,8 +6,9 @@ import android.preference.PreferenceManager;
 
 /**
  * This class obtains who the winner is.
+ * @author Karan P., Karan J., Kalpit
  */
-public class Winner {
+public class WinnerFinder {
     private static final String GET_MAX_OVER = "getMaxOvers";
     private static final String GET_MAX_PLAYER = "getMaxPlayers";
     private static final String GET_TEAM1_NAME = "getTeam1Name";
@@ -21,7 +22,7 @@ public class Winner {
      * Constructor of Winner class.
      * @param context
      */
-    public Winner(Context context) {
+    public WinnerFinder(Context context) {
         mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
         MAX_OVER = mPrefs.getInt(GET_MAX_OVER, 0);
         MAX_PLAYER = mPrefs.getInt(GET_MAX_PLAYER, 0);

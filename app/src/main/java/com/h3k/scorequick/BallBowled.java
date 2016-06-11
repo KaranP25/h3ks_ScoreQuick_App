@@ -2,18 +2,9 @@ package com.h3k.scorequick;
 
 /**
  * This class is used to set the type of ball bowled by a team.
+ * @author Karan P., Karan J., Kalpit
  */
 public class BallBowled {
-
-    public enum TypeOfBalls {
-        NOTPALYED("nP"), DOT_BALL("•"), WIDEBALL("wd"), BYES("b"), LEGBYES("lb"), NO_BALL("nb"), WICKET("W"),
-        ONE("1"), TWO("2"), THREE("3"), FOUR("4"), SIX("6");
-
-        public String value;
-        TypeOfBalls(String value) {
-            this.value = value;
-        }
-    }
 
     private TypeOfBalls mTypeOfBall;
     private String mBallValue;

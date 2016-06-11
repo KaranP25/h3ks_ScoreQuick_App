@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class saves all the balls played in a particular inning.
+ * @author Karan P., Karan J., Kalpit
  */
 public class Innings {
     private int mRunScored;
@@ -130,7 +131,7 @@ public class Innings {
      * This method sets the extra runs scored of a ball.
      * @param runOfBall
      */
-    public void setExtraRunOfBall(Runs.RunsAvailable runOfBall){
+    public void setExtraRunOfBall(RunsAvailable runOfBall){
         this.mExtraRunOfBall = runOfBall.value;
     }
 
@@ -163,7 +164,7 @@ public class Innings {
      * This method sets amount of runs scored of a legal ball.
      * @param getRun
      */
-    public void setRunScored(Runs.RunsAvailable getRun){
+    public void setRunScored(RunsAvailable getRun){
         mRunType.setNumberOfRuns(getRun);
         runsOfThatOver[mCurrentOver] = runsOfThatOver[mCurrentOver] + mRunType.getRun();
     }
@@ -234,7 +235,9 @@ public class Innings {
             isOverDone = false;
         }else if(!done){
             mNumOfBallsPlayed = 5;
-            isOverDone = false;
+        }else{
+            isOverDone = true;
+
         }
     }
 
@@ -284,7 +287,7 @@ public class Innings {
      * @return
      */
     public int getRunsAfterOver(int overNum){
-        if(!isOverComplete() && !isInningDone()){
+        if(!isOverComplete() || !isInningDone()){
             runsAfterOver[mCurrentOver] = getTotalRunScored();
         }
         return runsAfterOver[overNum];

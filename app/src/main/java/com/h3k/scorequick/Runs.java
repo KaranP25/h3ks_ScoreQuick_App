@@ -2,20 +2,9 @@ package com.h3k.scorequick;
 
 /**
  * This class sets the type of runs per ball bowled.
+ * @author Karan P., Karan J., Kalpit
  */
 public class Runs {
-
-    /**
-     * States the type of runs and its values.
-     */
-    public enum RunsAvailable {
-        DOT_BALL(0), SINGLE_RUN(1), DOUBLE_RUN(2), TRIPLE_RUN(3), FOUR_RUN(4), SIX_RUN(6);
-        public int value;
-
-        RunsAvailable(int value){
-            this.value = value;
-        }
-    }
 
     private int runValue;
     private int runTotal;

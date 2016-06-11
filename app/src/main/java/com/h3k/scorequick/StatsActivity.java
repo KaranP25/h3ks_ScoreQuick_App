@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 /**
  * This class is use for displaying stats of game.
+ * @author Karan P., Karan J., Kalpit
  */
 public class StatsActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String GET_TEAM1_NAME = "getTeam1Name";

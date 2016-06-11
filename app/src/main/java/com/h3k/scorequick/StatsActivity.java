@@ -15,7 +15,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
- * Created by Karan on 6/5/2016.
+ * This class is use for displaying stats of game.
  */
 public class StatsActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String GET_TEAM1_NAME = "getTeam1Name";
@@ -44,6 +44,10 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
     private int mOvers;
 
+    /**
+     * This method is called at runtime.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -132,7 +136,10 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
+    /**
+     * This method performs specific tasks on button press.
+     * @param v
+     */
     public void onClick(View v) {
 
         if (v.getId() == R.id.Team1_btn){
@@ -159,26 +166,33 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
-            })//.setCancelable(false)
-                    .show();
+            }).show();
         }
         if (v.getId() == R.id.Team2_btn){
             ScrollView s = new ScrollView(this);
-
             LinearLayout vh = new LinearLayout(this);
             vh.setOrientation(LinearLayout.VERTICAL);
             s.addView(vh);
-
-            String overs [] = {"1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6","1: 0,0,W,0,1,6"};
-
-
-            for (int i = 0; i < overs.length; i++){
+            vh.addView(new TextView(this));
+            for (int i = 0; i < mOversInningT2.length; i++){
                 TextView t = new TextView(this);
-                t.setText(overs[i]);
-                t.setTextSize(35);
+                String message;
+                if(mOversInningT2[i].isEmpty()){
+                    message = " OVER NOT PLAYED YET";
+                }else {
+                    message = " " + mOversInningT2[i] + " = " + String.valueOf(mRunsOfOverT2[i]) + "  > " +
+                            String.valueOf(mRunsAfterOverT2[i] + " total Runs");
+                }
+                t.setText("  Over " + (i + 1) + ": " + message);
+                t.setTextSize(16);
                 vh.addView(t);
             }
-            new AlertDialog.Builder(this).setView(s).show();
+            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            }).show();
         }
     }
 }

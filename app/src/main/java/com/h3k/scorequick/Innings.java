@@ -1,11 +1,9 @@
 package com.h3k.scorequick;
 
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Karan on 5/21/2016.
+ * This class saves all the balls played in a particular inning.
  */
 public class Innings {
     private int mRunScored;
@@ -16,10 +14,15 @@ public class Innings {
     private ArrayList<String>[] mOvers;
     private boolean isOverDone, inningDone, teamChasing;
     private int[] runsOfThatOver, runsAfterOver;
-
     private int mRunsNeededToWin;
 
-
+    /**
+     * Constructor of Innings
+     * @param inningOf
+     * @param numOfOvers
+     * @param numOfPlayers
+     * @param teamChasing
+     */
     public Innings(String inningOf, int numOfOvers, int numOfPlayers, boolean teamChasing){
         this.mInningOf = inningOf;
         this.mTotalOvers = numOfOvers;
@@ -38,16 +41,21 @@ public class Innings {
         for(int i = 0; i < mOvers.length; i++) mOvers[i] = new ArrayList<String>();
     }
 
+    /**
+     * This method sets the number of runs needed for a team to win.
+     * @param runsMade
+     */
     public void setRunsNeededToWin(int runsMade){
         if(teamChasing) {
             this.mRunsNeededToWin = runsMade + 1;
         }
     }
 
-    public String getInningOf(){
-        return mInningOf;
-    }
-
+    /**
+     * This method adds the type of a ball bowled in the arraylist.
+     * @param overNum
+     * @param ballBowled
+     */
     public void setThisOverOverview(int overNum, BallBowled ballBowled){
         switch (ballBowled.getBallPlayed()) {
             case "b":
@@ -84,6 +92,12 @@ public class Innings {
 
     }
 
+    /**
+     * This method gets values from the elements of the arraylist.
+     * @param over
+     * @param totalVersion
+     * @return
+     */
     public String getOverOverview(int over, boolean totalVersion){
         StringBuilder thisOver = new StringBuilder();
 
@@ -112,36 +126,67 @@ public class Innings {
         return thisOver.toString();
     }
 
-    public void setExtraRunOfBall(Runs.RunsAvalible runOfBall){
+    /**
+     * This method sets the extra runs scored of a ball.
+     * @param runOfBall
+     */
+    public void setExtraRunOfBall(Runs.RunsAvailable runOfBall){
         this.mExtraRunOfBall = runOfBall.value;
     }
 
+    /**
+     * This method gets the extra runs scored.
+     * @return
+     */
     private int getExtraRunOfBall(){
         return mExtraRunOfBall;
     }
 
+    /**
+     * This method sets wickets.
+     * @param wicket
+     */
     public void setFallenWicket(WicketsType wicket){
         mWicketFalenType = wicket.value;
         mCurrentNumOfWickets++;
     }
 
+    /**
+     * This method gets the type of wicket.
+     * @return
+     */
     private String getFallenWicketType(){
         return mWicketFalenType;
     }
 
-    public void setRunScored(Runs.RunsAvalible getRun){
+    /**
+     * This method sets amount of runs scored of a legal ball.
+     * @param getRun
+     */
+    public void setRunScored(Runs.RunsAvailable getRun){
         mRunType.setNumberOfRuns(getRun);
         runsOfThatOver[mCurrentOver] = runsOfThatOver[mCurrentOver] + mRunType.getRun();
     }
 
+    /**
+     * This method sets extra runs scored.
+     * @param extra
+     */
     public void setExtraRuns(int extra){
         mRunType.setExtraRuns(extra);
     }
 
+    /**
+     * This method gets total runs scored.
+     * @return
+     */
     public int getTotalRunScored(){
         return mRunType.getTotalRuns();
     }
 
+    /**
+     * This method if an over is complete (over = 6 legal balls).
+     */
     public void legalBallsPlayed(){
         if(mNumOfBallsPlayed < 6) {
             mNumOfBallsPlayed++;
@@ -153,18 +198,34 @@ public class Innings {
         }
     }
 
+    /**
+     * This method gets the amount of balls played.
+     * @return
+     */
     public int getNumOfBallsPlayed(){
         return mNumOfBallsPlayed;
     }
 
+    /**
+     * This method gets number of the over.
+     * @return
+     */
     public int getCurrentOver(){
         return mCurrentOver;
     }
 
+    /**
+     * This method gets number of wickets.
+     * @return
+     */
     public int getCurrentNumOfWickets(){
         return mCurrentNumOfWickets;
     }
 
+    /**
+     * This method sets if an over is finished.
+     * @param done
+     */
     public void setOverDone(boolean done){
         if(done) {
             mNumOfBallsPlayed = 0;
@@ -177,6 +238,10 @@ public class Innings {
         }
     }
 
+    /**
+     * This method checks if an over is complete.
+     * @return
+     */
     public boolean isOverComplete(){
         if(isOverDone){
             return true;
@@ -185,18 +250,39 @@ public class Innings {
         }
     }
 
+    /**
+     * This method gets a particular ball from an over.
+     * @param overNum
+     * @param index
+     * @return
+     */
     public String getCertainBallOfOver(int overNum, int index){
         return mOvers[overNum].get(index);
     }
 
+    /**
+     * This method gets number of ball bowled.
+     * @param overNum
+     * @return
+     */
     public int getHowManyBallsBowled(int overNum){
         return mOvers[overNum].size();
     }
 
+    /**
+     * This method gets number of runs scored in an over.
+     * @param overNum
+     * @return
+     */
     public int getRunsOfThatOver(int overNum){
         return runsOfThatOver[overNum];
     }
 
+    /**
+     * This method gets amount of runs after the over is done.
+     * @param overNum
+     * @return
+     */
     public int getRunsAfterOver(int overNum){
         if(!isOverComplete() && !isInningDone()){
             runsAfterOver[mCurrentOver] = getTotalRunScored();
@@ -204,10 +290,20 @@ public class Innings {
         return runsAfterOver[overNum];
     }
 
+    /**
+     * This method gets method gets total number of balls bowled.
+     * @return
+     */
     public int getTotalBallsBowled(){
         return mCurrentOver * 6 + mNumOfBallsPlayed;
     }
 
+    /**
+     * This method allows the user undo the last ball bowled.
+     * @param overNum
+     * @param ballLegal
+     * @param wasLastBallWicket
+     */
     public void undo(int overNum, boolean ballLegal, boolean wasLastBallWicket){
         if(ballLegal){
             if (mNumOfBallsPlayed != 0) {
@@ -232,6 +328,10 @@ public class Innings {
         }
     }
 
+    /**
+     * This method returns the state of the inning.
+     * @return
+     */
     public boolean isInningDone(){
         checkInningDone();
         if(inningDone){
@@ -241,6 +341,9 @@ public class Innings {
         }
     }
 
+    /**
+     * This method checks if the inning is done.
+     */
     private void checkInningDone(){
         if(mCurrentOver == mTotalOvers){
             inningDone = true;

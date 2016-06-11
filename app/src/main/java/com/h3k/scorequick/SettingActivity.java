@@ -26,23 +26,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Created by Karan on 5/30/2016.
+ * This class is used to get the settings of the game (# of players, # of wickets etc...).
  */
 public class SettingActivity extends AppCompatActivity {
-    SettingActivity() {
-
-    }
 
     private static final String GET_TEAM1_NAME = "getTeam1Name";
     private static final String GET_TEAM2_NAME = "getTeam2Name";
     private static final String GET_MAX_OVER = "getMaxOvers";
     private static final String GET_MAX_PLAYER = "getMaxPlayers";
-
     private EditText overs, players, nameTeam1, nameTeam2;
     private Toast mToast;
-
     private int tempOvers, tempWickets;
 
+
+    /**
+     * Constructor of SettingsActivity
+     */
+    SettingActivity() {
+
+    }
+
+    /**
+     * This method is called at runtime.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -180,6 +187,12 @@ public class SettingActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method checks if back button is pressed.
+     * @param keyCode
+     * @param event
+     * @return
+     */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             new AlertDialog.Builder(SettingActivity.this).setTitle("Exit Application?")
@@ -202,6 +215,10 @@ public class SettingActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * This method displays the toast.
+     * @param message
+     */
     private void message(String message) {
         mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
     }

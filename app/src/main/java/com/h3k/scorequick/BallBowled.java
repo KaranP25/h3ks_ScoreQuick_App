@@ -1,9 +1,8 @@
 package com.h3k.scorequick;
 
 /**
- * Created by Karan on 5/23/2016.
+ * This class is used to set the type of ball bowled by a team.
  */
-
 public class BallBowled {
 
     public enum TypeOfBalls {
@@ -19,35 +18,38 @@ public class BallBowled {
     private TypeOfBalls mTypeOfBall;
     private String mBallValue;
 
+    /**
+     * Constructor of BallBowled
+     * @param typeOfBall
+     */
     public BallBowled(TypeOfBalls typeOfBall){
         this.mTypeOfBall = typeOfBall;
         mBallValue = mTypeOfBall.value;
     }
 
+    /**
+     * This method sets the ball.
+     * @param ballPlayed
+     */
     public void setBallPlayed(TypeOfBalls ballPlayed){
         this.mTypeOfBall = ballPlayed;
         mBallValue = mTypeOfBall.value;
     }
 
-    public void setWicketType (WicketsType wickets){
-
-    }
-
-
+    /**
+     * This method sets the run scored on a ball.
+     * @param runs
+     */
     public void setBallPlayedRunScored(int runs){
         this.mBallValue = String.valueOf(runs);
     }
 
+    /**
+     * This method gets the ball played.
+     * @return
+     */
     public String getBallPlayed(){
         return mBallValue;
-    }
-
-    public boolean isEqual(TypeOfBalls ballPlayed){
-        if(ballPlayed == mTypeOfBall){
-            return true;
-        }else{
-            return false;
-        }
     }
 }
 

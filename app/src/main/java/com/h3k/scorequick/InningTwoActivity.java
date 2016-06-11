@@ -4,9 +4,8 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
@@ -15,11 +14,10 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.ArrayList;
-
-
+/**
+ * This class is used for second inning of the game.
+ */
 public class InningTwoActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_TEAM2_NAME = "getTeam2Name";
     private static final String GET_MAX_OVER = "getMaxOvers";
@@ -30,32 +28,34 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
     private static final String GET_WICKET_T2 = "getWicketT2";
     private static final String GET_TEAM1STATE = "getTeam1State";
     private static final String GET_TEAM2STATE = "getTeam2State";
-
     private Button mZeroRunBtn, mOneRunBtn, mTwoRunBtn, mThreeRunBtn, mFourRunBtn, mSixRunBtn,
             mByesBtn, mLegByesBtn, mNoBallBtn, mWidesBtn, mWicketBtn, mStatsBtn, mUndoBtn;
     private TextView mTotal, mOverOverview, mOverAndBallLeft, mTeamName;
     private String wicketType[] = {WicketsType.CAUGHT.value, WicketsType.BOWLED.value, WicketsType.LBW.value,
             WicketsType.RUN_OUT.value, WicketsType.STUMPED.value, WicketsType.HIT_WICKET.value, WicketsType.RETIRED_HURT.value};
     private int byes, legByes, wideRuns, noBallRuns, wickets;
-    private String byeType[] = {String.valueOf(Runs.RunsAvalible.SINGLE_RUN.value), String.valueOf(Runs.RunsAvalible.DOUBLE_RUN.value),
-            String.valueOf(Runs.RunsAvalible.TRIPLE_RUN.value), String.valueOf(Runs.RunsAvalible.FOUR_RUN.value)};
-    private String runsOfExtras[] = {String.valueOf(Runs.RunsAvalible.DOT_BALL.value), String.valueOf(Runs.RunsAvalible.SINGLE_RUN.value),
-            String.valueOf(Runs.RunsAvalible.DOUBLE_RUN.value), String.valueOf(Runs.RunsAvalible.TRIPLE_RUN.value),
-            String.valueOf(Runs.RunsAvalible.FOUR_RUN.value)};
+    private String byeType[] = {String.valueOf(Runs.RunsAvailable.SINGLE_RUN.value), String.valueOf(Runs.RunsAvailable.DOUBLE_RUN.value),
+            String.valueOf(Runs.RunsAvailable.TRIPLE_RUN.value), String.valueOf(Runs.RunsAvailable.FOUR_RUN.value)};
+    private String runsOfExtras[] = {String.valueOf(Runs.RunsAvailable.DOT_BALL.value), String.valueOf(Runs.RunsAvailable.SINGLE_RUN.value),
+            String.valueOf(Runs.RunsAvailable.DOUBLE_RUN.value), String.valueOf(Runs.RunsAvailable.TRIPLE_RUN.value),
+            String.valueOf(Runs.RunsAvailable.FOUR_RUN.value)};
     private final int extraRun = 1;
     private Innings mInnings;
     private boolean legalBalls, lastBallWicket;
-
     private int MAX_OVERS, MAX_PLAYER, runMadeByT1, totalBallsBowledT1, wicketsT1;
     private String team2Name;
-
     private SharedPreferences mSharedPreferences;
 
+    /**
+     * Constructor of InningTwoActivity
+     */
     public InningTwoActivity() {
-        // Required empty public constructor
     }
 
-    @Override
+    /**
+     * Method called at runtime.
+     * @param savedInstanceState
+     */
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
@@ -78,10 +78,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         team2Name = mSharedPreferences.getString(GET_TEAM2_NAME, "Inning 2");
 
         mInnings = new Innings(team2Name, MAX_OVERS, MAX_PLAYER, true);
-        // true because team 2 is chasing team 1 runs
         mInnings.setRunsNeededToWin(runMadeByT1);
-
-        //Toast.makeText(this, MAX_OVERS, Toast.LENGTH_SHORT).show();
 
         mZeroRunBtn = (Button) this.findViewById(R.id.zero_run);
         mZeroRunBtn.setOnClickListener(this);
@@ -119,15 +116,17 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         mTeamName.setText("Inning 2 of " + team2Name);
 
         setTotal();
-        //setBoardVisible(mInnings.hasInningStarted());
-
     }
 
+    /**
+     * This method performs specific tasks on button press.
+     * @param v
+     */
     public void onClick(View v) {
         if (!mInnings.isInningDone()) {
             if (v.getId() == R.id.zero_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.DOT_BALL);
+                    mInnings.setRunScored(Runs.RunsAvailable.DOT_BALL);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.DOT_BALL));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -136,7 +135,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.one_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.SINGLE_RUN);
+                    mInnings.setRunScored(Runs.RunsAvailable.SINGLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.ONE));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -145,7 +144,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.two_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.DOUBLE_RUN);
+                    mInnings.setRunScored(Runs.RunsAvailable.DOUBLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.TWO));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -154,7 +153,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.three_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.TRIPLE_RUN);
+                    mInnings.setRunScored(Runs.RunsAvailable.TRIPLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.THREE));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -163,7 +162,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.four_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.FOUR_RUN);
+                    mInnings.setRunScored(Runs.RunsAvailable.FOUR_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.FOUR));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -171,7 +170,7 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                 }
             } else if (v.getId() == R.id.six_run) {
                 if (!mInnings.isOverComplete()) {
-                    mInnings.setRunScored(Runs.RunsAvalible.SIX_RUN);
+                    mInnings.setRunScored(Runs.RunsAvailable.SIX_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(BallBowled.TypeOfBalls.SIX));
                     legalBalls = true;
                     lastBallWicket = false;
@@ -192,15 +191,15 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             byes = 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 2:
                                             byes = 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 3:
                                             byes = 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(byes);
@@ -227,15 +226,15 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             legByes = 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 2:
                                             legByes = 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 3:
                                             legByes = 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(legByes);
@@ -262,19 +261,19 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             wideRuns = extraRun + 1;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.SINGLE_RUN);
                                             break;
                                         case 2:
                                             wideRuns = extraRun + 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 3:
                                             wideRuns = extraRun + 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 4:
                                             wideRuns = extraRun + 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(wideRuns);
@@ -301,19 +300,19 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                         case 1:
                                             noBallRuns = extraRun + 1;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.SINGLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.SINGLE_RUN);
                                             break;
                                         case 2:
                                             noBallRuns = extraRun + 2;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.DOUBLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.DOUBLE_RUN);
                                             break;
                                         case 3:
                                             noBallRuns = extraRun + 3;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.TRIPLE_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.TRIPLE_RUN);
                                             break;
                                         case 4:
                                             noBallRuns = extraRun + 4;
-                                            mInnings.setExtraRunOfBall(Runs.RunsAvalible.FOUR_RUN);
+                                            mInnings.setExtraRunOfBall(Runs.RunsAvailable.FOUR_RUN);
                                             break;
                                     }
                                     mInnings.setExtraRuns(noBallRuns);
@@ -470,6 +469,9 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
 
     }
 
+    /**
+     * This method prompts the user when the second inning has been finished.
+     */
     private void inningCompletionPrompt() {
         new AlertDialog.Builder(this)
                 .setTitle("Inning Complete")
@@ -481,11 +483,15 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                         transferData();
                         Intent i = new Intent(InningTwoActivity.this, StatsActivity.class);
                         startActivity(i);
+
                     }
                 }).setCancelable(false).show();
     }
 
-
+    /**
+     * This methods sets the visiblity of all the buttons.
+     * @param visible
+     */
     private void setBoardVisible(boolean visible) {
         if (visible) {
             mZeroRunBtn.setEnabled(true);
@@ -518,6 +524,12 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+    /**
+     * This method checks if the back button is pressed.
+     * @param keyCode
+     * @param event
+     * @return
+     */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             new android.support.v7.app.AlertDialog.Builder(InningTwoActivity.this).setTitle("Exit Application?")
@@ -525,7 +537,11 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            android.os.Process.killProcess(android.os.Process.myPid());
+                            Intent startMain = new Intent(Intent.ACTION_MAIN);
+                            startMain.addCategory(Intent.CATEGORY_HOME);
+                            startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            onDestroy();
+                            startActivity(startMain);
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -540,6 +556,18 @@ public class InningTwoActivity extends AppCompatActivity implements View.OnClick
         return true;
     }
 
+    /**
+     * ThiS method exits the app.
+     */
+    protected void onDestroy(){
+        Process.killProcess(Process.myPid());
+        super.onDestroy();
+    }
+
+    /**
+     * This method transfers the variables and its values into SharedPreferences
+     * and calls the next activity.
+     */
     public void transferData() {
         String[] mOvers = new String[MAX_OVERS];
         int[] mRunsOfOver = new int[MAX_OVERS];

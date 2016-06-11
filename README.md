@@ -4,9 +4,7 @@
 ## Features:
 <ul>
   <li>Create a new match
-  <li>Customize Settings
-  <li>Save scores
-  <li>Enter player names
+  <li>Customize Game Settings
   <li>End game at any time
 </ul>
 ## Screenshots:

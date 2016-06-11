@@ -6,7 +6,7 @@
   <li>Create a new match
   <li>Customize Game Settings
   <li>End game at any time
-  <li>Undo any mistakes made by user
+  <li>Undo any mistakes made by the user
 </ul>
 ## Screenshots:
 ![]()

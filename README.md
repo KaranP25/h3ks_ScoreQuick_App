@@ -7,6 +7,7 @@
   <li>Customize Game Settings
   <li>End game at any time
   <li>Undo any mistakes made by the user
+  <li>Shows history of each over bowled
 </ul>
 ## Screenshots:
 ![]()

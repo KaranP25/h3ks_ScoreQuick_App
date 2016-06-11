@@ -10,4 +10,4 @@
   <li>End game at any time
 </ul>
 ## Screenshots:
-![](http://i.imgur.com/WUOBdiX.png?1)
+![]()

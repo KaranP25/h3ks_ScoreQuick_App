@@ -8,4 +8,5 @@
   <li>End game at any time
   <li>Undo any mistakes made by the user
   <li>Shows history of each over bowled
+  <li>Create a new game when game is over
 </ul>

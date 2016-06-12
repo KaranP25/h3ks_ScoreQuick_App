@@ -20,6 +20,7 @@ import android.widget.Toast;
 /**
  * This class is used to get the settings of the game (# of players, # of wickets etc...)
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
 public class SettingActivity extends AppCompatActivity {
 

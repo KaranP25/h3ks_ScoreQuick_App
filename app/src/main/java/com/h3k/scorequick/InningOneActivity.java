@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -20,8 +21,9 @@ import android.widget.TextView;
 /**
  * This class is used for first inning of the game.
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
-public class InningOneActivity extends AppCompatActivity implements View.OnClickListener {
+public class InningOneActivity extends AppCompatActivity implements OnClickListener {
     private static final String GET_TEAM1_NAME = "getTeam1Name";
     private static final String GET_MAX_OVER = "getMaxOvers";
     private static final String GET_MAX_PLAYER = "getMaxPlayers";

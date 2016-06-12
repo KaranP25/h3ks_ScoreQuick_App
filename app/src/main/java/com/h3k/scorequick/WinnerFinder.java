@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 /**
  * This class obtains who the winner is.
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
 public class WinnerFinder {
     private static final String GET_MAX_OVER = "getMaxOvers";

@@ -3,7 +3,7 @@ package com.h3k.scorequick;
 /**
  * States the type of Balls and its values.
  * @author Karan P., Karan J., Kalpit, Harsh
- *
+ * @version Final Build
  */
 public enum TypeOfBalls {
     NOTPALYED("nP"), DOT_BALL("•"), WIDEBALL("wd"), BYES("b"), LEGBYES("lb"), NO_BALL("nb"), WICKET("W"),

@@ -3,6 +3,7 @@ package com.h3k.scorequick;
 /**
  * This class sets the type of runs per ball bowled.
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
 public class Runs {
 

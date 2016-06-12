@@ -3,6 +3,7 @@ package com.h3k.scorequick;
 /**
  * This class is used to set the type of ball bowled by a team.
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
 public class BallBowled {
 

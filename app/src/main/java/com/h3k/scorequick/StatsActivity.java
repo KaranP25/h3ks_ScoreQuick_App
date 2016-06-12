@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -17,10 +18,10 @@ import android.widget.TextView;
 
 /**
  * This class is use for displaying stats of game.
- *
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
-public class StatsActivity extends AppCompatActivity implements View.OnClickListener {
+public class StatsActivity extends AppCompatActivity implements OnClickListener {
     private static final String GET_TEAM1_NAME = "getTeam1Name";
     private static final String GET_TEAM2_NAME = "getTeam2Name";
     private static final String GET_MAX_OVER = "getMaxOvers";

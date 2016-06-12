@@ -5,6 +5,7 @@ import java.util.ArrayList;
 /**
  * This class saves all the balls played in a particular inning.
  * @author Karan P., Karan J., Kalpit, Harsh
+ * @version Final Build
  */
 public class Innings {
     private int mRunScored;

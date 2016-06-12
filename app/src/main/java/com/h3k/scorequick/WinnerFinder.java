@@ -6,7 +6,7 @@ import android.preference.PreferenceManager;
 
 /**
  * This class obtains who the winner is.
- * @author Karan P., Karan J., Kalpit
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
 public class WinnerFinder {
     private static final String GET_MAX_OVER = "getMaxOvers";
@@ -127,7 +127,9 @@ public class WinnerFinder {
         if (teamARuns > teamBRuns) {
             send = "Team " + teamAName + " won by: " + String.valueOf(getTeamARuns() - getTeamBRuns()) + " runs.";
         } else if (teamARuns < teamBRuns) {
-            send = "Team: " + teamBName + " won by: " + String.valueOf(MAX_PLAYER - getTeamBWickets() - 1) + " wickets";
+            send = "Team " + teamBName + " won by: " + String.valueOf(MAX_PLAYER - getTeamBWickets() - 1) + " wickets";
+        }else {
+            send = "Both teams tied.";
         }
         return send;
     }

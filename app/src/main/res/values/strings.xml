@@ -7,6 +7,9 @@
     <string name="max_over">[MAX OVER]</string>
     <string name="max_players">[MAX PLAYERS]</string>
 
+    <string name="new_match">New Match</string>
+    <string name="close_app">Close App</string>
+
     <string name="score_overview"><u><b>[SCORE OVERVIEW]</b></u></string>
     <string name="ball_overview"><u><b>[OVER/BALL OVERVIEW]</b></u></string>
     <string name="this_over">[THIS OVER OVERVIEW}</string>

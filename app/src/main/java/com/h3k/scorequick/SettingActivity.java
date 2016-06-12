@@ -1,33 +1,25 @@
 package com.h3k.scorequick;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 /**
  * This class is used to get the settings of the game (# of players, # of wickets etc...)
- * @author Karan P., Karan J., Kalpit
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
 public class SettingActivity extends AppCompatActivity {
 
@@ -37,7 +29,7 @@ public class SettingActivity extends AppCompatActivity {
     private static final String GET_MAX_PLAYER = "getMaxPlayers";
     private EditText overs, players, nameTeam1, nameTeam2;
     private Toast mToast;
-    private int tempOvers, tempWickets;
+    private boolean noBack;
 
 
     /**
@@ -54,6 +46,9 @@ public class SettingActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+
+        Intent i = getIntent();
+        noBack = i.getBooleanExtra("newStart", false);
 
         // Show icon on top of actionbar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -179,7 +174,7 @@ public class SettingActivity extends AppCompatActivity {
                     }
                 } catch (NumberFormatException e) {
                     mToast.cancel();
-                    message("Field cannot be empty");
+                    message("Fields cannot be empty");
                     mToast.show();
                 }
                 return false;
@@ -195,22 +190,31 @@ public class SettingActivity extends AppCompatActivity {
      */
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            new AlertDialog.Builder(SettingActivity.this).setTitle("Exit Application?")
-                    .setMessage("Do you want to quit this application?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            finish();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            if(noBack){
+                new AlertDialog.Builder(SettingActivity.this).setTitle("Error...")
+                        .setMessage("Cant Go back").setCancelable(false)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+            }else {
+                new AlertDialog.Builder(SettingActivity.this).setTitle("Exit Application?")
+                        .setMessage("Do you want to quit this application?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.cancel();
-                        }
-                    }).show();
-
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        }).show();
+            }
         }
         return true;
     }

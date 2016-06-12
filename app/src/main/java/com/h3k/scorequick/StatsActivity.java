@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -16,9 +17,10 @@ import android.widget.TextView;
 
 /**
  * This class is use for displaying stats of game.
- * @author Karan P., Karan J., Kalpit
+ *
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
-public class StatsActivity extends AppCompatActivity implements View.OnClickListener{
+public class StatsActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_TEAM1_NAME = "getTeam1Name";
     private static final String GET_TEAM2_NAME = "getTeam2Name";
     private static final String GET_MAX_OVER = "getMaxOvers";
@@ -38,8 +40,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
     private SharedPreferences mPrefs;
     private TextView nameT1, nameT2, scoreT1, scoreT2, ballOverT1, ballOverT2, maxPlayer, maxOver;
-    private Button detailsT1, detailsT2;
-    private Button btnTeamOne, btnTeamTwo;
+    private Button btnTeamOne, btnTeamTwo, newMatch;
     private String[] mOversInningT1, mOversInningT2;
     private int[] mRunsOfOverT1, mRunsOfOverT2, mRunsAfterOverT1, mRunsAfterOverT2;
 
@@ -47,6 +48,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
 
     /**
      * This method is called at runtime.
+     *
      * @param savedInstanceState
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +65,16 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         btnTeamOne.setOnClickListener(this);
         btnTeamTwo = (Button) findViewById(R.id.Team2_btn);
         btnTeamTwo.setOnClickListener(this);
+        newMatch = (Button)findViewById(R.id.new_match);
+        newMatch.setOnClickListener(this);
+        newMatch.setVisibility(View.INVISIBLE);
         nameT1 = (TextView) this.findViewById(R.id.Team1_name);
         nameT2 = (TextView) this.findViewById(R.id.Team2_name);
         scoreT1 = (TextView) this.findViewById(R.id.Team1_score);
         scoreT2 = (TextView) this.findViewById(R.id.Team2_score);
         ballOverT1 = (TextView) this.findViewById(R.id.Team1_ball);
         ballOverT2 = (TextView) this.findViewById(R.id.Team2_ball);
-        maxPlayer = (TextView) this.findViewById(R.id.max_players) ;
+        maxPlayer = (TextView) this.findViewById(R.id.max_players);
         maxOver = (TextView) this.findViewById(R.id.max_over);
 
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
@@ -98,7 +103,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         mOversInningT1 = new String[MAX_OVER];
         mRunsOfOverT1 = new int[MAX_OVER];
         mRunsAfterOverT1 = new int[MAX_OVER];
-        for(int x = 0; x < MAX_OVER; x++) {
+        for (int x = 0; x < MAX_OVER; x++) {
             mOversInningT1[x] = mPrefs.getString("overviewT1_" + x, "");
             mRunsOfOverT1[x] = mPrefs.getInt("runsOfOverT1_" + x, 0);
             mRunsAfterOverT1[x] = mPrefs.getInt("runsAfterOverT1_" + x, 0);
@@ -108,7 +113,7 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         mRunsOfOverT2 = new int[MAX_OVER];
         mRunsAfterOverT2 = new int[MAX_OVER];
         //mOversInning2 = new String[mPrefs.getInt("overOverview_sizeT2", 0)];
-        for(int x = 0; x < MAX_OVER; x++) {
+        for (int x = 0; x < MAX_OVER; x++) {
             mOversInningT2[x] = mPrefs.getString("overviewT2_" + x, "");
             mRunsOfOverT2[x] = mPrefs.getInt("runsOfOverT2_" + x, 0);
             mRunsAfterOverT2[x] = mPrefs.getInt("runsAfterOverT2_" + x, 0);
@@ -117,17 +122,17 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
         maxPlayer.setText("Players Playing: " + MAX_PLAYER);
         maxOver.setText("Max Overs: " + MAX_OVER);
         nameT1.setText(team1Name + " (Inning 1)");
-        nameT1.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
+        nameT1.setPaintFlags(nameT1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         nameT2.setText(team2Name + " (Inning 2)");
-        nameT2.setPaintFlags(nameT1.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
-        if(team1State && !team2State) {
+        nameT2.setPaintFlags(nameT1.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        if (team1State && !team2State) {
             scoreT1.setText(String.valueOf(team1Score) + "/" + String.valueOf(team1Wickets));
             ballOverT1.setText(String.valueOf(team1Over) + "." + String.valueOf(team1Ball));
 
             scoreT2.setText("DNP");
             ballOverT2.setText("DNP");
             btnTeamTwo.setEnabled(false);
-        }else if(!team1State && team2State) {
+        } else if (!team1State && team2State) {
             scoreT1.setText(String.valueOf(team1Score) + "/" + String.valueOf(team1Wickets));
             ballOverT1.setText(String.valueOf(team1Over) + "." + String.valueOf(team1Ball));
 
@@ -135,65 +140,101 @@ public class StatsActivity extends AppCompatActivity implements View.OnClickList
             ballOverT2.setText(String.valueOf(team2Over) + "." + String.valueOf(team2Ball));
             btnTeamTwo.setEnabled(true);
         }
+        if(getIntent().getBooleanExtra("showNextBtn", false)){
+            newMatch.setVisibility(View.VISIBLE);
+        }
     }
 
     /**
      * This method performs specific tasks on button press.
+     *
      * @param v
      */
     public void onClick(View v) {
 
-        if (v.getId() == R.id.Team1_btn){
+        if (v.getId() == R.id.Team1_btn) {
             ScrollView s = new ScrollView(this);
+            s.setPadding(75, 0, 75, 0);
             LinearLayout vh = new LinearLayout(this);
             vh.setOrientation(LinearLayout.VERTICAL);
             s.addView(vh);
             vh.addView(new TextView(this));
-            for (int i = 0; i < mOversInningT1.length; i++){
+            for (int i = 0; i < mOversInningT1.length; i++) {
                 TextView t = new TextView(this);
                 String message;
-                if(mOversInningT1[i].isEmpty()){
-                    message = " OVER NOT PLAYED YET";
-                }else {
+                if (mOversInningT1[i].isEmpty()) {
+                    message = "OVER NOT PLAYED YET";
+                } else {
                     message = " " + mOversInningT1[i] + " = " + String.valueOf(mRunsOfOverT1[i]) + "  > " +
-                    String.valueOf(mRunsAfterOverT1[i] + " total Runs");
+                            String.valueOf(mRunsAfterOverT1[i] + " total Runs");
                 }
-                t.setText("  Over " + (i + 1) + ": " + message);
-                t.setTextSize(16);
+                t.setText("Over " + (i + 1) + ": " + message);
+                t.setTextSize(14);
                 vh.addView(t);
             }
-            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             }).show();
         }
-        if (v.getId() == R.id.Team2_btn){
+        if (v.getId() == R.id.Team2_btn) {
             ScrollView s = new ScrollView(this);
+            s.setPadding(75, 0, 75, 0);
             LinearLayout vh = new LinearLayout(this);
             vh.setOrientation(LinearLayout.VERTICAL);
             s.addView(vh);
             vh.addView(new TextView(this));
-            for (int i = 0; i < mOversInningT2.length; i++){
+            for (int i = 0; i < mOversInningT2.length; i++) {
                 TextView t = new TextView(this);
                 String message;
-                if(mOversInningT2[i].isEmpty()){
-                    message = " OVER NOT PLAYED YET";
-                }else {
+                if (mOversInningT2[i].isEmpty()) {
+                    message = "OVER NOT PLAYED YET";
+                } else {
                     message = " " + mOversInningT2[i] + " = " + String.valueOf(mRunsOfOverT2[i]) + "  > " +
                             String.valueOf(mRunsAfterOverT2[i] + " total Runs");
                 }
-                t.setText("  Over " + (i + 1) + ": " + message);
-                t.setTextSize(16);
+                t.setText("Over " + (i + 1) + ": " + message);
+                t.setTextSize(14);
                 vh.addView(t);
             }
-            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener(){
+            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             }).show();
         }
+
+        if (v.getId() == R.id.new_match){
+            Intent i = new Intent(this, SettingActivity.class);
+            i.putExtra("newStart", true);
+            startActivity(i);
+        }
     }
+
+    /**
+     * This method checks if the back button is pressed.
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(getIntent().getBooleanExtra("showNextBtn", false)) {
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                new android.support.v7.app.AlertDialog.Builder(StatsActivity.this).setTitle("Match Complete")
+                        .setMessage("Both Innings are complete")
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                            }
+                        }).show();
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+
+    }
+
 }

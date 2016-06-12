@@ -2,7 +2,7 @@ package com.h3k.scorequick;
 
 /**
  * States the type of Balls and its values.
- * @author Karan P., Karan J., Kalpit
+ * @author Karan P., Karan J., Kalpit, Harsh
  *
  */
 public enum TypeOfBalls {

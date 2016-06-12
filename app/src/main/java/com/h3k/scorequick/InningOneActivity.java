@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -17,8 +19,7 @@ import android.widget.TextView;
 
 /**
  * This class is used for first inning of the game.
- * @author Karan P., Karan J., Kalpit
- *
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
 public class InningOneActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String GET_TEAM1_NAME = "getTeam1Name";
@@ -45,7 +46,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
             String.valueOf(RunsAvailable.FOUR_RUN.value)};
     private final int extraRun = 1;
     private Innings mInnings;
-    private boolean legalBalls, lastBallWicket;
+    private boolean legalBall, lastBallWicket;
     private int MAX_OVERS, MAX_PLAYER;
     private String team1Name;
     private SharedPreferences mSharedPreferences;
@@ -58,6 +59,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * Method called at runtime.
+     *
      * @param savedInstanceState
      */
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,15 +118,16 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
 
     /**
      * This method performs specific tasks on button press.
+     *
      * @param v
      */
     public void onClick(View v) {
-        if(!mInnings.isInningDone()) {
+        if (!mInnings.isInningDone()) {
             if (v.getId() == R.id.zero_run) {
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.DOT_BALL);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.DOT_BALL));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                     mUndoBtn.setEnabled(true);
@@ -133,7 +136,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.SINGLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.ONE));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                     mUndoBtn.setEnabled(true);
@@ -142,7 +145,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.DOUBLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.TWO));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                     mUndoBtn.setEnabled(true);
@@ -151,7 +154,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.TRIPLE_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.THREE));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                     mUndoBtn.setEnabled(true);
@@ -160,7 +163,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.FOUR_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.FOUR));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                 }
@@ -168,7 +171,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 if (!mInnings.isOverComplete()) {
                     mInnings.setRunScored(RunsAvailable.SIX_RUN);
                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.SIX));
-                    legalBalls = true;
+                    legalBall = true;
                     lastBallWicket = false;
                     setTotal();
                     mUndoBtn.setEnabled(true);
@@ -200,7 +203,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                                     }
                                     mInnings.setExtraRuns(byes);
                                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.BYES));
-                                    legalBalls = true;
+                                    legalBall = true;
                                     lastBallWicket = false;
                                     setTotal();
                                     mUndoBtn.setEnabled(true);
@@ -236,7 +239,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                                     }
                                     mInnings.setExtraRuns(legByes);
                                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.LEGBYES));
-                                    legalBalls = true;
+                                    legalBall = true;
                                     lastBallWicket = false;
                                     setTotal();
                                     mUndoBtn.setEnabled(true);
@@ -275,7 +278,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                                     }
                                     mInnings.setExtraRuns(wideRuns);
                                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.WIDEBALL));
-                                    legalBalls = false;
+                                    legalBall = false;
                                     lastBallWicket = false;
                                     setTotal();
                                     mUndoBtn.setEnabled(true);
@@ -314,7 +317,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                                     }
                                     mInnings.setExtraRuns(noBallRuns);
                                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.NO_BALL));
-                                    legalBalls = false;
+                                    legalBall = false;
                                     lastBallWicket = false;
                                     setTotal();
                                     mUndoBtn.setEnabled(true);
@@ -352,7 +355,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                                             break;
                                     }
                                     mInnings.setThisOverOverview(mInnings.getCurrentOver(), new BallBowled(TypeOfBalls.WICKET));
-                                    legalBalls = true;
+                                    legalBall = true;
                                     lastBallWicket = true;
                                     setTotal();
                                     mUndoBtn.setEnabled(true);
@@ -363,7 +366,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 String[] mOvers = new String[MAX_OVERS];
                 int[] mRunsOfOver = new int[MAX_OVERS];
                 int[] mRunsAfterOver = new int[MAX_OVERS];
-                for(int i = 0; i < MAX_OVERS; i++){
+                for (int i = 0; i < MAX_OVERS; i++) {
                     mOvers[i] = mInnings.getOverOverview(i, true);
                     mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
                     mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
@@ -381,7 +384,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 sfEditor.putBoolean(GET_TEAM1STATE, true);
                 sfEditor.putBoolean(GET_TEAM2STATE, false);
 
-                for(int x = 0; x < MAX_OVERS; x++) {
+                for (int x = 0; x < MAX_OVERS; x++) {
                     sfEditor.putString("overviewT1_" + x, mOvers[x]);
                     sfEditor.putInt("runsOfOverT1_" + x, mRunsOfOver[x]);
                     sfEditor.putInt("runsAfterOverT1_" + x, mRunsAfterOver[x]);
@@ -391,9 +394,9 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                 Intent i = new Intent(this, StatsActivity.class);
                 startActivity(i);
             } else if (v.getId() == R.id.undo) {
-                mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
+                mInnings.undo(mInnings.getCurrentOver(), legalBall, lastBallWicket);
                 lastBallWicket = false;
-                legalBalls = false;
+                legalBall = false;
                 setTotal();
                 mUndoBtn.setEnabled(false);
 
@@ -408,62 +411,66 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         mStatsBtn.setEnabled(true);
         mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
         mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver(), false));
-        if(legalBalls){
+        if (legalBall) {
             mInnings.legalBallsPlayed();
         }
-
-        if(mInnings.isInningDone()) {
-            inningCompletionPrompt();
-        }else{
-            mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
-            if(mInnings.isOverComplete()) {
-                ScrollView s = new ScrollView(InningOneActivity.this);
-                LinearLayout vh = new LinearLayout(InningOneActivity.this);
-                vh.setOrientation(LinearLayout.VERTICAL);
-                s.addView(vh);
-                vh.addView(new TextView(this));
-                for (int i = 0; i < mInnings.getHowManyBallsBowled(mInnings.getCurrentOver()); i++) {
-                    TextView t = new TextView(this);
-                    t.setText("    Delivery " + (i + 1) + ": " + mInnings.getCertainBallOfOver(mInnings.getCurrentOver(), i));
-                    t.setTextSize(20);
-                    vh.addView(t);
-                }
-                vh.addView(new TextView(this));
-                TextView x = new TextView(this);
-                x.setText("                                                                     Over Complete");
-                vh.addView(x);
-                new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Next Over", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mInnings.setOverDone(true);
-                        mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
-                        mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver() - 1, false));
-                        mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
-                        legalBalls = false;
-                        mUndoBtn.setEnabled(false);
-                        if (mInnings.isInningDone()) {
-                            inningCompletionPrompt();
-                        }
-
-                    }
-                }).setNegativeButton("Undo", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        mInnings.undo(mInnings.getCurrentOver(), legalBalls, lastBallWicket);
-                        mInnings.setOverDone(false);
-                        legalBalls = false;
-                        setTotal();
-                        mUndoBtn.setEnabled(false);
-                    }
-                }).setCancelable(false).show();
+        mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
+        if (mInnings.isInningDone()) {
+            inningCompletionPrompt(false);
+        } else if (mInnings.isOverComplete()) {
+            ScrollView s = new ScrollView(InningOneActivity.this);
+            s.setPadding(100, 0, 100, 0);
+            LinearLayout vh = new LinearLayout(InningOneActivity.this);
+            vh.setOrientation(LinearLayout.VERTICAL);
+            vh.setGravity(Gravity.CENTER_VERTICAL);
+            s.addView(vh);
+            vh.addView(new TextView(this));
+            for (int i = 0; i < mInnings.getHowManyBallsBowled(mInnings.getCurrentOver()); i++) {
+                TextView t = new TextView(this);
+                t.setText("Delivery " + (i + 1) + ": " + mInnings.getCertainBallOfOver(mInnings.getCurrentOver(), i));
+                t.setTextSize(20);
+                vh.addView(t);
             }
-        }
+            vh.addView(new TextView(this));
+            TextView x = new TextView(this);
+            x.setText("Over Complete");
+            x.setTextSize(20);
+            x.setTypeface(null, Typeface.BOLD);
+            x.setGravity(Gravity.RIGHT);
+            vh.addView(x);
+            new AlertDialog.Builder(this).setView(s).setTitle("This Over").setPositiveButton("Next Over", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mInnings.setOverDone(true);
+                    mTotal.setText(String.valueOf(mInnings.getTotalRunScored()) + "/" + mInnings.getCurrentNumOfWickets());
+                    mOverOverview.setText("This Over: " + mInnings.getOverOverview(mInnings.getCurrentOver() - 1, false));
+                    mOverAndBallLeft.setText(String.valueOf(mInnings.getCurrentOver()) + "." + String.valueOf(mInnings.getNumOfBallsPlayed()));
+                    legalBall = false;
+                    mUndoBtn.setEnabled(false);
+                    if (mInnings.isInningDone()) {
+                        inningCompletionPrompt(true);
+                    }
 
+                }
+            }).setNegativeButton("Undo", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    mInnings.undo(mInnings.getCurrentOver(), legalBall, lastBallWicket);
+                    mInnings.setOverDone(false);
+                    legalBall = false;
+                    setTotal();
+                    mUndoBtn.setEnabled(false);
+                }
+            }).setCancelable(false).show();
+        }
     }
+
+
 
     /**
      * This method checks if the back button is pressed.
-      * @param keyCode
+     *
+     * @param keyCode
      * @param event
      * @return
      */
@@ -474,11 +481,11 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent startMain = new Intent(Intent.ACTION_MAIN);
-                            startMain.addCategory(Intent.CATEGORY_HOME);
-                            startMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            Intent close = new Intent(Intent.ACTION_MAIN);
+                            close.addCategory(Intent.CATEGORY_HOME);
+                            close.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             onDestroy();
-                            startActivity(startMain);
+                            startActivity(close);
                         }
                     })
                     .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -488,7 +495,6 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
                             dialog.cancel();
                         }
                     }).show();
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }
@@ -496,7 +502,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
     /**
      * This method exits the app.
      */
-    protected void onDestroy(){
+    protected void onDestroy() {
         Process.killProcess(Process.myPid());
         super.onDestroy();
     }
@@ -504,25 +510,50 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
     /**
      * This method prompts user when the inning has been completed.
      */
-    private void inningCompletionPrompt(){
-        new AlertDialog.Builder(this)
-                .setTitle("Inning Complete")
-                .setMessage("Completion of Inning 1")
-                .setPositiveButton("Next", new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setBoardVisible(false);
-                        transferData();
-                    }
-                }).setCancelable(false).show();
+    private void inningCompletionPrompt(boolean wasOverComplete) {
+        if (wasOverComplete) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Inning Complete")
+                    .setMessage("Completion of Inning 1")
+                    .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            setBoardVisible(false);
+                            transferData();
+                        }
+                    }).setCancelable(false).show();
+        }else {
+            new AlertDialog.Builder(this)
+                    .setTitle("Inning Complete")
+                    .setMessage("Completion of Inning 1")
+                    .setPositiveButton("Next", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            setBoardVisible(false);
+                            transferData();
+                        }
+                    })
+                    .setNegativeButton("Undo Last Delivery", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mInnings.undo(mInnings.getCurrentOver(), legalBall, lastBallWicket);
+                            lastBallWicket = false;
+                            legalBall = false;
+                            setTotal();
+                            mUndoBtn.setEnabled(false);
+                        }
+                    }).setCancelable(false).show();
+        }
+
     }
 
     /**
      * This methods sets the visiblity of all the buttons.
+     *
      * @param visible
      */
-    private void setBoardVisible(boolean visible){
-        if(visible){
+    private void setBoardVisible(boolean visible) {
+        if (visible) {
             mZeroRunBtn.setEnabled(true);
             mOneRunBtn.setEnabled(true);
             mTwoRunBtn.setEnabled(true);
@@ -536,7 +567,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
             mWicketBtn.setEnabled(true);
             mStatsBtn.setEnabled(true);
             mUndoBtn.setEnabled(true);
-        }else{
+        } else {
             mZeroRunBtn.setEnabled(false);
             mOneRunBtn.setEnabled(false);
             mTwoRunBtn.setEnabled(false);
@@ -557,11 +588,11 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
      * This method transfers the variables and its values into SharedPreferences
      * and calls the next activity.
      */
-    public void transferData(){
+    public void transferData() {
         String[] mOvers = new String[MAX_OVERS];
         int[] mRunsOfOver = new int[MAX_OVERS];
         int[] mRunsAfterOver = new int[MAX_OVERS];
-        for(int i = 0; i < MAX_OVERS; i++){
+        for (int i = 0; i < MAX_OVERS; i++) {
             mOvers[i] = mInnings.getOverOverview(i, true);
             mRunsOfOver[i] = mInnings.getRunsOfThatOver(i);
             mRunsAfterOver[i] = mInnings.getRunsAfterOver(i);
@@ -579,7 +610,7 @@ public class InningOneActivity extends AppCompatActivity implements View.OnClick
         sfEditor.putBoolean(GET_TEAM1STATE, true);
         sfEditor.putBoolean(GET_TEAM2STATE, false);
 
-        for(int x = 0; x < MAX_OVERS; x++) {
+        for (int x = 0; x < MAX_OVERS; x++) {
             sfEditor.putString("overviewT1_" + x, mOvers[x]);
             sfEditor.putInt("runsOfOverT1_" + x, mRunsOfOver[x]);
             sfEditor.putInt("runsAfterOverT1_" + x, mRunsAfterOver[x]);

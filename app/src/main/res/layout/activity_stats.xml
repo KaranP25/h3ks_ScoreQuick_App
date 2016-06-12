@@ -9,14 +9,13 @@
 
     tools:context=".StatsActivity">
 
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_centerVertical="true"
         android:layout_marginTop="20dp"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/linearLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -159,5 +158,27 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:layout_marginTop="15dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center"
+        android:layout_alignParentEnd="true">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/new_match"
+            android:id="@+id/new_match"
+            android:layout_marginTop="15dp"
+            android:layout_gravity="right"
+            android:layout_weight="2"
+            style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:gravity="center"
+            />/>
+
+
     </LinearLayout>
 </RelativeLayout>

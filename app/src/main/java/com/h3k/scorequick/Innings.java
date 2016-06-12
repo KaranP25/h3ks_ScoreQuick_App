@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 /**
  * This class saves all the balls played in a particular inning.
- * @author Karan P., Karan J., Kalpit
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
 public class Innings {
     private int mRunScored;
@@ -13,7 +13,7 @@ public class Innings {
     private int mTotalOvers, mCurrentOver = 0, mNumOfBallsPlayed = 0, mWicketNeeded, mCurrentNumOfWickets,
             mExtraRunOfBall;
     private ArrayList<String>[] mOvers;
-    private boolean isOverDone, inningDone, teamChasing;
+    private boolean overDone, inningDone, teamChasing;
     private int[] runsOfThatOver, runsAfterOver;
     private int mRunsNeededToWin;
 
@@ -186,20 +186,6 @@ public class Innings {
     }
 
     /**
-     * This method if an over is complete (over = 6 legal balls).
-     */
-    public void legalBallsPlayed(){
-        if(mNumOfBallsPlayed < 6) {
-            mNumOfBallsPlayed++;
-        }
-        if(mNumOfBallsPlayed == 6){
-            isOverDone = true;
-        } else{
-            isOverDone = false;
-        }
-    }
-
-    /**
      * This method gets the amount of balls played.
      * @return
      */
@@ -224,6 +210,19 @@ public class Innings {
     }
 
     /**
+     * This method if an over is complete (over = 6 legal balls).
+     */
+    public void legalBallsPlayed(){
+        if(mNumOfBallsPlayed < 6) {
+            mNumOfBallsPlayed++;
+            overDone = false;
+        }
+        if(mNumOfBallsPlayed == 6){
+            overDone = true;
+        }
+    }
+
+    /**
      * This method sets if an over is finished.
      * @param done
      */
@@ -232,13 +231,10 @@ public class Innings {
             mNumOfBallsPlayed = 0;
             runsAfterOver[mCurrentOver] = getTotalRunScored();
             mCurrentOver++;
-            isOverDone = false;
         }else if(!done){
             mNumOfBallsPlayed = 5;
-        }else{
-            isOverDone = true;
-
         }
+        overDone = false;
     }
 
     /**
@@ -246,7 +242,7 @@ public class Innings {
      * @return
      */
     public boolean isOverComplete(){
-        if(isOverDone){
+        if(overDone){
             return true;
         }else {
             return false;
@@ -287,8 +283,10 @@ public class Innings {
      * @return
      */
     public int getRunsAfterOver(int overNum){
-        if(!isOverComplete() || !isInningDone()){
+        if(!isOverComplete() && !isInningDone()){
             runsAfterOver[mCurrentOver] = getTotalRunScored();
+        }else if(isInningDone() && overNum == mCurrentOver){
+            runsAfterOver[overNum] = getTotalRunScored();
         }
         return runsAfterOver[overNum];
     }

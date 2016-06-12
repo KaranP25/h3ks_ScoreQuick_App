@@ -5,7 +5,7 @@ package com.h3k.scorequick;
  */
 /**
  * States the type of runs and its values.
- * @author Karan P., Karan J., Kalpit
+ * @author Karan P., Karan J., Kalpit, Harsh
  */
 public enum RunsAvailable {
     DOT_BALL(0), SINGLE_RUN(1), DOUBLE_RUN(2), TRIPLE_RUN(3), FOUR_RUN(4), SIX_RUN(6);
